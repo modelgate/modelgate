@@ -6,6 +6,9 @@
 # =============================================================================
 FROM node:20-alpine AS web-builder
 
+# 设置环境变量，跳过 simple-git-hooks
+ENV PNPM_SKIP_PREPARE=true
+
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
