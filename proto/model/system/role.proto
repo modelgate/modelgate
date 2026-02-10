@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/field_behavior.proto";
+
+package system;
+option go_package = "github.com/modelgate/modelgate/pkg/proto/model/system";
+
+message Role {
+  int64 id = 1;
+  string name = 2;
+  string code = 3;
+  bool is_super_admin = 4;
+  RolePermission permission = 5;
+  string description = 6;
+  string status = 7;
+  google.protobuf.Timestamp created_at = 8 [(google.api.field_behavior) = OUTPUT_ONLY];
+  google.protobuf.Timestamp updated_at = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+message RolePermission {
+  string home = 1;
+  repeated int64 menu_ids = 2;
+  repeated string buttons = 3;
+}

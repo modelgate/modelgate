@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/field_behavior.proto";
+
+package system;
+option go_package = "github.com/modelgate/modelgate/pkg/proto/model/system";
+
+message User {
+  int64 id = 1;
+  string username = 2;
+  string nickname = 3;
+  string email = 4;
+  string phone = 5;
+  repeated string roles = 6;
+  string gender = 7;
+  string avatar_url = 8;
+  string description = 9;
+  string password = 10 [(google.api.field_behavior) = INPUT_ONLY];
+  string status = 11;
+  google.protobuf.Timestamp created_at = 12 [(google.api.field_behavior) = OUTPUT_ONLY];
+  google.protobuf.Timestamp updated_at = 13 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+message UserInfo {
+  int64 id = 1;
+  string username = 2;
+  string nickname = 3;
+  bool is_super_admin = 4;
+  repeated string buttons = 5;
+  string gender = 6;
+  string avatar_url = 7;
+  string description = 8;
+}

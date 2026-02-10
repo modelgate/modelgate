@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/field_behavior.proto";
+
+package system;
+option go_package = "github.com/modelgate/modelgate/pkg/proto/model/system";
+
+message Permission {
+  int64 id = 1;
+  string name = 2;
+  string code = 3;
+  repeated ApiPerm data = 4;
+  string desc = 5;
+  google.protobuf.Timestamp created_at = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
+  google.protobuf.Timestamp updated_at = 7 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+message ApiPerm {
+  string path =1;
+  string method = 2;
+}

@@ -1,0 +1,8 @@
+{
+    "files.exclude": {
+        "**/web": true
+    },
+    "search.exclude": {
+        "**/web": true
+    }
+}

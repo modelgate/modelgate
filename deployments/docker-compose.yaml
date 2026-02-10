@@ -1,0 +1,17 @@
+version: "3"
+services:
+  modelgate:
+    image: modelgate:modelgate:v0.0.1
+    container_name: modelgate-server
+    restart: always
+    ports:
+      - 8888:8888
+      - 8889:8889
+    environment:
+      TZ: Asia/Shanghai
+      TD_DATABASE_TYPE: mysql
+      TD_DATABASE_HOST: 127.0.0.1
+      TD_DATABASE_PORT: 3306
+      TD_DATABASE_USER: root
+      TD_DATABASE_PASSWORD: 123456
+      TD_DATABASE_NAME: modelgate

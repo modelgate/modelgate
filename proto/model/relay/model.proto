@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package relay;
+option go_package = "github.com/modelgate/modelgate/pkg/proto/model/relay";
+
+enum ModelStatus {
+  MODEL_STATUS_UNSPECIFIED = 0;
+  MODEL_STATUS_ENABLED = 1;
+  MODEL_STATUS_DISABLED = 2;
+  MODEL_STATUS_DEPRECATED = 3;
+}
+
+message Model {
+  int64 id = 1;
+  int64 provider_id = 2;
+  string provider_code = 3;
+  string actual_code = 4;
+  string code = 5;
+  string name = 6;
+  int64 priority = 7;
+  int64 weight = 8;
+  string status = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+}

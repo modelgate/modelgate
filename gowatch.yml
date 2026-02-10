@@ -1,0 +1,18 @@
+appname: "modelgate"
+run_cmd: "./modelgate"
+cmd_args:
+   - "all"
+   - "--config=./configs/config.toml"
+watch_exts:
+   - .go
+   - .toml
+   - .env
+vendor_watch: false
+excluded_paths:
+   - proto
+   - web
+   - tmp
+build_pkg: "cmd/main.go"
+build_tags: ""
+disable_run: false
+log_level: "debug"

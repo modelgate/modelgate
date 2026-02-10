@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package relay;
+option go_package = "github.com/modelgate/modelgate/pkg/proto/model/relay";
+
+message Request {
+  int64 id = 1;
+  string request_uuid = 2;
+  int64 provider_id = 3;
+  string provider_code = 4;
+  int64 provider_api_key_id = 5;
+  int64 model_id = 6;
+  string model_code = 7;
+  string actual_model = 8;
+  int64 account_id = 9;
+  string account_name =10;
+  int64 account_api_key_id = 11;
+  int64 prompt_tokens = 12;
+  int64 completion_tokens = 13;
+  int64 total_tokens = 14;
+  string status = 15;
+  int64 elapsed_time = 16;
+  int64 error_code = 17;
+  string error_message = 18;
+  google.protobuf.Timestamp completed_at = 19;
+  google.protobuf.Timestamp created_at = 20;
+  google.protobuf.Timestamp updated_at = 21;
+}

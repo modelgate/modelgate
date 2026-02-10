@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package system;
+option go_package = "github.com/modelgate/modelgate/pkg/proto/model/system";
+
+enum MenuType {
+  MENU_TYPE_UNSPECIFIED = 0;
+  MENU_TYPE_DIRECTORY = 1;
+  MENU_TYPE_MENU = 2;
+}
+
+enum IconType {
+  ICON_TYPE_UNSPECIFIED = 0;
+  ICON_TYPE_ICONIFY = 1;
+  ICON_TYPE_LOCAL = 2;
+}
+
+message Menu {
+  int64 id = 1;
+  int64 pid = 2;
+  string name = 3;
+  MenuType type = 4;
+  string route_name = 5;
+  string route_path = 6;
+  string component = 7;
+  string i18n_key = 8;
+  uint32 order = 9;
+  IconType icon_type = 10;
+  string icon = 11;
+  string status = 12;
+  bool keep_alive = 13;
+  bool constant = 14;
+  string href = 15;
+  bool hide_in_menu = 16;
+  string active_menu = 17;
+  bool multi_tab = 18;
+  uint32 fixed_index_in_tab = 19;
+  repeated MenuQuery query = 20;  
+  repeated MenuButton buttons = 21;
+  repeated Menu children = 22;
+  google.protobuf.Timestamp created_at = 23;
+  google.protobuf.Timestamp updated_at = 24;
+}
+
+message MenuQuery {
+  string key = 1;
+  string value = 2;
+}
+
+message MenuButton {
+  string code = 2;
+  string desc = 3;
+}
+
+message ButtonNode {
+   int32 id = 1;
+  string label = 2;
+  string code = 3; 
+  repeated ButtonNode children = 4;
+}
+
+message MenuRoute {
+  int64 id=1;
+  string name=2;
+  string path=3;
+  string component=4;
+  MenuMeta meta=5;
+  repeated MenuRoute children=6;
+}
+
+message MenuNode {
+  int64 id=1;
+  int64 pid=2;
+  string label=3;
+  repeated MenuNode children=4;
+}
+
+message MenuMeta {
+  string title =1;
+  bool constant = 2;
+  bool hide_in_menu = 3;
+  string icon = 4;
+  string i18n_key =5;
+  uint32 order = 6;
+}

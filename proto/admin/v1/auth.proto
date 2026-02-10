@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "model/system/user.proto";
+
+package admin.v1;
+option go_package = "github.com/modelgate/modelgate/pkg/proto/admin/v1";
+
+service AuthService {
+  // Login signs in the user with the given username and password.
+  rpc Login(LoginRequest) returns (LoginResponse) {
+  }
+  // RefreshToken refreshes the access token.
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {
+  }
+  // SignUp signs up the user with the given username and password.
+  rpc SignUp(SignUpRequest) returns (system.User) {
+  }
+  // SignOut signs out the user.
+  rpc SignOut(SignOutRequest) returns (google.protobuf.Empty) {
+  }
+  // GetUserInfo returns the current auth status of the user.
+  rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse) {
+  }
+}
+
+message RefreshTokenRequest {
+  // The refresh token to refresh.
+  string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message LoginRequest {
+  // The username to sign in with.
+  string username = 1;
+  // The password to sign in with.
+  string password = 2;
+  // Whether the session should never expire.
+  bool remember_me = 3;
+}
+
+message LoginResponse{
+    string access_token = 1;
+    string refresh_token = 2;
+}
+
+message SignUpRequest {
+  // The username to sign up with.
+  string username = 1;
+  // The password to sign up with.
+  string password = 2;
+}
+
+message SignOutRequest {}
+
+message GetUserInfoRequest {}
+
+message GetUserInfoResponse {
+  system.UserInfo user = 1;
+}

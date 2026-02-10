@@ -1,0 +1,234 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+import "model/system/user.proto";
+import "model/system/role.proto";
+import "model/system/menu.proto";
+import "model/system/permission.proto";
+
+package admin.v1;
+option go_package = "github.com/modelgate/modelgate/pkg/proto/admin/v1";
+
+service SystemService {
+  rpc GetUserList(GetUserListRequest) returns (GetUserListResponse) {}
+  rpc CreateUser(CreateUserRequest) returns (system.User){}
+  rpc UpdateUser(UpdateUserRequest) returns (system.User){}
+  rpc DeleteUsers(DeleteUsersRequest) returns (google.protobuf.Empty) {}
+  rpc GetRoleList(GetRoleListRequest) returns (GetRoleListResponse) {}
+  rpc CreateRole(CreateRoleRequest) returns (system.Role){}
+  rpc UpdateRole(UpdateRoleRequest) returns (system.Role){}
+  rpc UpdateRolePermission(UpdateRolePermissionRequest) returns (system.Role){}
+  rpc DeleteRoles(DeleteRolesRequest) returns (google.protobuf.Empty) {}
+  rpc GetRoleInfo(GetRoleInfoRequest) returns (system.Role){}
+  rpc CreateMenu(CreateMenuRequest) returns (system.Menu){}
+  rpc UpdateMenu(UpdateMenuRequest) returns (system.Menu){}
+  rpc DeleteMenus(DeleteMenusRequest) returns (google.protobuf.Empty) {}
+  rpc GetMenuList(GetMenuListRequest) returns (GetMenuListResponse) {}
+  rpc GetPageList(GetPageListRequest) returns (GetPageListResponse) {}
+  rpc GetButtonList(GetButtonListRequest) returns (GetButtonListResponse) {}
+  rpc GetMenuTree(GetMenuTreeRequest) returns (GetMenuTreeResponse) {}
+  rpc GetConstantRoutes(GetConstantRoutesRequest) returns (GetConstantRoutesResponse) {}
+  rpc GetUserRoutes(GetUserRoutesRequest) returns (GetUserRoutesResponse) {} 
+  rpc GetApiList(GetApiListRequest) returns (GetApiListResponse) {} 
+  rpc CreatePermission(CreatePermissionRequest) returns (system.Permission){}
+  rpc UpdatePermission(UpdatePermissionRequest) returns (system.Permission){}
+  rpc DeletePermissions(DeletePermissionsRequest) returns (google.protobuf.Empty) {}
+  rpc GetPermissionList(GetPermissionListRequest) returns (GetPermissionListResponse) {}
+
+  rpc GetVersion(GetVersionRequest) returns (GetVersionResponse) {}
+}
+
+message CreatePermissionRequest {
+  system.Permission permission = 1;
+}
+
+message UpdatePermissionRequest {
+  system.Permission permission = 1;
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeletePermissionsRequest {
+  repeated int64 ids = 1;
+}
+
+message GetPermissionListRequest {
+  uint32 current=1;
+  uint32 size=2;
+  string order_by=3;
+  string name=4;
+  string code=5;
+}
+
+message GetPermissionListResponse {
+  uint32 current = 1;
+  uint32 size = 2;
+  uint32 total = 3;
+  repeated system.Permission records = 4; 
+}
+
+message GetApiListRequest {}
+
+message GetApiListResponse {
+  uint32 total = 1;
+  repeated string records = 2;
+}
+
+message GetButtonListRequest {}
+
+message GetButtonListResponse {
+  uint32 total = 1;
+  repeated system.ButtonNode records = 2;
+}
+
+message UpdateRolePermissionRequest {
+  int64 id=1;
+  string home=2;
+  repeated int64 menu_ids=3;
+  repeated string buttons=4;
+  google.protobuf.FieldMask update_mask = 5;
+}
+
+message GetRoleInfoRequest {
+  int64 id=1;
+}
+
+message GetMenuTreeRequest {
+}
+
+message GetMenuTreeResponse {
+  repeated system.MenuNode records = 1;
+}
+
+message GetPageListRequest {
+  uint32 current=1;
+  uint32 size=2;
+  string order_by=3;
+}
+
+message GetPageListResponse{
+  uint32 total = 1;
+  repeated string records = 2;  
+} 
+
+message GetVersionRequest {
+}
+
+message GetVersionResponse {
+  string version = 1;
+  string build_time = 2;
+  string git_commit = 3;
+}
+
+message GetUserRoutesRequest {
+}
+
+message GetUserRoutesResponse {
+  repeated system.MenuRoute routes = 1;
+  string home = 2;
+}
+
+message GetConstantRoutesRequest {
+}
+
+message GetConstantRoutesResponse {
+  repeated system.MenuRoute routes = 1;
+}
+
+message CreateMenuRequest {
+  system.Menu menu = 1;
+}
+
+message UpdateMenuRequest {
+  system.Menu menu = 1;
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteMenusRequest {
+  repeated int64 ids = 1;
+}
+
+message GetMenuListRequest {
+  uint32 current=1;
+  uint32 size=2;
+  string order_by=3;
+  string name=4;
+  string route_name=5;
+  string route_path=6;
+  string component=7;
+  string i18n_key=8;
+  string status=9;
+}
+
+message GetMenuListResponse {
+  uint32 current = 1;
+  uint32 size = 2;
+  uint32 total = 3;
+  repeated system.Menu records = 4; 
+}
+
+message GetUserListRequest {
+  uint32 current=1;
+  uint32 size=2;
+  string order_by=3;
+  string username=4;
+  string phone=5;
+  string nickname=6;
+  string gender=7;
+  string email=8;
+  string status=9;
+}
+
+message GetUserListResponse {
+  uint32 current = 1;
+  uint32 size = 2;
+  uint32 total = 3;
+  repeated system.User records = 4; 
+}
+
+message CreateUserRequest {
+  system.User user = 1;
+}
+
+message UpdateUserRequest {
+  system.User user = 1;
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteUsersRequest {
+  repeated int64 ids = 1;
+}
+
+message GetRoleListRequest {
+  uint32 current=1;
+  uint32 size=2;
+  string order_by=3;
+  string name=4;
+  string code=5;
+  string description=6;
+  string status=7;
+}
+
+message GetRoleListResponse {
+  uint32 current = 1;
+  uint32 size = 2;
+  uint32 total = 3;
+  repeated system.Role records = 4; 
+}
+
+message CreateRoleRequest {
+  system.Role role = 1;
+}
+
+message UpdateRoleRequest {
+  system.Role role = 1;
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteRolesRequest {
+  repeated int64 ids = 1;
+}

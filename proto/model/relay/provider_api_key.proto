@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package relay;
+option go_package = "github.com/modelgate/modelgate/pkg/proto/model/relay";
+
+message ProviderApiKey {
+  int64 id = 1;
+  int64 provider_id = 2;
+  string provider_code = 3;
+  string name = 4;
+  string key = 5;
+  int64 weight = 6;
+  string status = 7;
+  int64 faild_count = 8;
+  google.protobuf.Timestamp cool_down_until = 9;
+  google.protobuf.Timestamp last_used_at = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
+}

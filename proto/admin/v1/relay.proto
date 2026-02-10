@@ -1,0 +1,322 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/api/field_behavior.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/field_mask.proto";
+import "model/relay/provider.proto";
+import "model/relay/model.proto";
+import "model/relay/provider_api_key.proto";
+import "model/relay/model_pricing.proto";
+import "model/relay/ledger.proto";
+import "model/relay/account_api_key.proto";
+import "model/relay/accout.proto";
+import "model/relay/request.proto";
+import "model/relay/relay_usage.proto";
+
+package admin.v1;
+option go_package = "github.com/modelgate/modelgate/pkg/proto/admin/v1";
+
+service RelayService {
+  rpc CreateProvider(CreateProviderRequest) returns (relay.Provider) {}
+  rpc UpdateProvider(UpdateProviderRequest) returns (relay.Provider) {}
+  rpc DeleteProviders(DeleteProvidersRequest) returns (google.protobuf.Empty) {}
+  rpc GetProviderList(GetProviderListRequest) returns (GetProviderListResponse) {}
+  rpc GetProviderCodeList(GetProviderCodeListRequest) returns (GetProviderCodeListResponse) {}
+
+  rpc CreateModel(CreateModelRequest) returns (relay.Model) {}
+  rpc UpdateModel(UpdateModelRequest) returns (relay.Model) {}
+  rpc DeleteModels(DeleteModelsRequest) returns (google.protobuf.Empty) {}
+  rpc GetModelList(GetModelListRequest) returns (GetModelListResponse) {}
+
+  rpc CreateProviderApiKey(CreateProviderApiKeyRequest) returns (relay.ProviderApiKey) {}
+  rpc UpdateProviderApiKey(UpdateProviderApiKeyRequest) returns (relay.ProviderApiKey) {}
+  rpc DeleteProviderApiKeys(DeleteProviderApiKeysRequest) returns (google.protobuf.Empty) {}
+  rpc GetProviderApiKeyList(GetProviderApiKeyListRequest) returns (GetProviderApiKeyListResponse) {}
+
+  rpc CreateModelPricing(CreateModelPricingRequest) returns (relay.ModelPricing) {}
+  rpc UpdateModelPricing(UpdateModelPricingRequest) returns (relay.ModelPricing) {}
+  rpc DeleteModelPricings(DeleteModelPricingsRequest) returns (google.protobuf.Empty) {}
+  rpc GetModelPricingList(GetModelPricingListRequest) returns (GetModelPricingListResponse) {}
+
+  rpc CreateLedger(CreateLedgerRequest) returns (relay.Ledger) {}
+  rpc DeleteLedgers(DeleteLedgersRequest) returns (google.protobuf.Empty) {}
+  rpc GetLedgerList(GetLedgerListRequest) returns (GetLedgerListResponse) {}
+
+  rpc CreateAccountApiKey(CreateAccountApiKeyRequest) returns (relay.AccountApiKey) {}
+  rpc UpdateAccountApiKey(UpdateAccountApiKeyRequest) returns (relay.AccountApiKey) {}
+  rpc DeleteAccountApiKeys(DeleteAccountApiKeysRequest) returns (google.protobuf.Empty) {}
+  rpc GetAccountApiKeyList(GetAccountApiKeyListRequest) returns (GetAccountApiKeyListResponse) {}
+
+  rpc CreateAccount(CreateAccountRequest) returns (relay.Account) {}
+  rpc UpdateAccount(UpdateAccountRequest) returns (relay.Account) {}
+  rpc DeleteAccounts(DeleteAccountsRequest) returns (google.protobuf.Empty) {}
+  rpc GetAccountList(GetAccountListRequest) returns (GetAccountListResponse) {}
+
+  rpc GetRequestList(GetRequestListRequest) returns (GetRequestListResponse) {}
+  rpc DeleteRequests(DeleteRequestsRequest) returns (google.protobuf.Empty) {}
+
+  rpc GetRelayInfo(GetRelayInfoRequest) returns (GetRelayInfoResponse) {}
+  rpc GetTotalRelayUsage(GetTotalRelayUsageRequest) returns (GetTotalRelayUsageResponse) {}
+  rpc GetRelayUsage(GetRelayUsageRequest) returns (GetRelayUsageResponse) {}
+}
+
+message GetRelayUsageRequest {
+  string chart_type = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+}
+
+message GetRelayUsageResponse {
+  repeated relay.UsageSerie series = 1; 
+}
+
+message GetRelayInfoRequest {}
+
+message GetRelayInfoResponse {
+  int64 provider_count = 1;
+  int64 model_count = 2;
+  int64 api_key_count = 3;
+}
+
+message GetTotalRelayUsageRequest {
+}
+
+message GetTotalRelayUsageResponse {
+  int64 total_request = 1;
+  int64 total_point = 2;
+}
+
+message GetProviderCodeListRequest {
+}
+
+message GetProviderCodeListResponse {
+  repeated string records = 1;
+}
+
+message CreateAccountRequest {
+  relay.Account account = 1;
+}
+
+message UpdateAccountRequest {
+  relay.Account account = 1;
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteAccountsRequest {
+  repeated int64 ids=1;
+}
+
+message GetAccountListRequest {
+  uint32 current=1;
+  uint32 size=2;
+  string order_by=3;
+  string name=4;
+  string nickname=5;
+  string status=6;
+}
+
+message GetAccountListResponse {
+  uint32 current = 1;
+  uint32 size = 2;
+  uint32 total = 3;
+  repeated relay.Account records = 4; 
+}
+
+message CreateModelPricingRequest {
+  relay.ModelPricing model_pricing = 1;
+}
+
+message UpdateModelPricingRequest {
+  relay.ModelPricing model_pricing = 1;
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteModelPricingsRequest {
+  repeated int64 ids=1;
+}
+
+message GetModelPricingListRequest {
+  uint32 current=1;
+  uint32 size=2;
+  string order_by=3;
+  string provider_code =4;
+  string model_code=5;
+  string currency=6;
+  google.protobuf.Timestamp effective_from=7;
+  google.protobuf.Timestamp effective_to=8;
+}
+
+message GetModelPricingListResponse {
+  uint32 current = 1;
+  uint32 size = 2;
+  uint32 total = 3;
+  repeated relay.ModelPricing records = 4; 
+}
+
+message CreateProviderApiKeyRequest {
+  relay.ProviderApiKey provider_api_key = 1;
+}
+
+message UpdateProviderApiKeyRequest {
+  relay.ProviderApiKey provider_api_key = 1;
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteProviderApiKeysRequest {
+  repeated int64 ids=1;
+}
+
+message GetProviderApiKeyListRequest {
+  uint32 current=1;
+  uint32 size=2;
+  string order_by=3;
+  int64 provider_id=4;
+  string provider_code=5;
+  string name=6;
+  string status=7;
+}
+
+message GetProviderApiKeyListResponse {
+  uint32 current = 1;
+  uint32 size = 2;
+  uint32 total = 3;
+  repeated relay.ProviderApiKey records = 4; 
+}
+
+message CreateModelRequest {
+relay.Model model = 1;
+}
+
+message UpdateModelRequest {
+  relay.Model model = 1;
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteModelsRequest {
+  repeated int64 ids=1;
+}
+
+message GetModelListRequest {
+  uint32 current=1;
+  uint32 size=2;
+  string order_by=3;
+  string name=4;
+  string actual_code =5;
+  string code=6;
+  string provider_code=7;
+  string status=8;
+}
+
+message GetModelListResponse {
+  uint32 current = 1;
+  uint32 size = 2;
+  uint32 total = 3;
+  repeated relay.Model records = 4; 
+}
+
+message CreateProviderRequest {
+  relay.Provider provider = 1;
+}
+
+message UpdateProviderRequest {
+  relay.Provider provider = 1;
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteProvidersRequest {
+  repeated int64 ids=1;
+}
+
+message GetProviderListRequest {
+  uint32 current=1;
+  uint32 size=2;
+  string order_by=3;
+  string name=4;
+  string code=5;
+  string status=6;
+}
+
+message GetProviderListResponse {
+  uint32 current = 1;
+  uint32 size = 2;
+  uint32 total = 3;
+  repeated relay.Provider records = 4; 
+}
+
+message CreateLedgerRequest {
+  relay.Ledger ledger = 1;
+}
+
+message DeleteLedgersRequest {
+  repeated int64 ids=1;
+}
+
+message GetLedgerListRequest {
+  uint32 current=1;
+  uint32 size=2;
+  string order_by=3;
+  int64 account_id=4;
+  string type=5;
+}
+
+message GetLedgerListResponse {
+  uint32 current = 1;
+  uint32 size = 2;
+  uint32 total = 3;
+  repeated relay.Ledger records = 4; 
+}
+
+message CreateAccountApiKeyRequest {
+  relay.AccountApiKey account_api_key = 1;
+}
+
+message UpdateAccountApiKeyRequest {
+  relay.AccountApiKey account_api_key = 1;
+  google.protobuf.FieldMask update_mask = 2;
+}
+
+message DeleteAccountApiKeysRequest {
+  repeated int64 ids=1;
+}
+
+message GetAccountApiKeyListRequest {
+  uint32 current=1;
+  uint32 size=2;
+  string order_by=3;
+  int64 account_id=4;
+  string keyword=5;
+  string status=6;
+}
+
+message GetAccountApiKeyListResponse {
+  uint32 current = 1;
+  uint32 size = 2;
+  uint32 total = 3;
+  repeated relay.AccountApiKey records = 4;
+}
+
+message DeleteRequestsRequest {
+  repeated int64 ids = 1;
+}
+
+message GetRequestListRequest {
+  uint32 current = 1;
+  uint32 size = 2;
+  string order_by = 3;
+  int64 account_id = 4;
+  string provider_code = 5;
+  string model_code = 6;
+  string status = 7;
+  google.protobuf.Timestamp completed_at_start = 8;
+  google.protobuf.Timestamp completed_at_end = 9;
+}
+
+message GetRequestListResponse {
+  uint32 current = 1;
+  uint32 size = 2;
+  uint32 total = 3;
+  repeated relay.Request records = 4;
+}

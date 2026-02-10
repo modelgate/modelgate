@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package relay;
+option go_package = "github.com/modelgate/modelgate/pkg/proto/model/relay";
+
+
+
+message ModelPricing {
+  int64 id = 1;
+  string provider_code = 2;
+  string model_code = 3;
+  string currency = 4;
+  int64 points_per_currency = 5;
+  int64 token_num = 6;
+  float input_price = 7;
+  float input_cache_price = 8;
+  float output_price = 9;
+  string status = 10;
+  google.protobuf.Timestamp effective_from = 11;
+  google.protobuf.Timestamp effective_to = 12;
+  google.protobuf.Timestamp created_at = 13;
+}

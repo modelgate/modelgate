@@ -1,0 +1,55 @@
+package zhipu
+
+import (
+	"github.com/samber/do/v2"
+
+	"github.com/modelgate/modelgate/internal/runtime/core"
+	"github.com/modelgate/modelgate/internal/runtime/hooks"
+	"github.com/modelgate/modelgate/internal/runtime/provider"
+)
+
+func Init(i do.Injector) {
+	// 智谱
+	provider.RegisterPlanSet(core.ProviderCodeZhipu, &provider.ProviderPlanSet{
+		Sync: &provider.SyncExecution{
+			Handler: NewHandler(core.ProviderCodeZhipu),
+			Hooks: []core.Hook{
+				do.MustInvoke[*hooks.RequestHook](i),
+				do.MustInvoke[*hooks.OpenAITokenHook](i),
+				do.MustInvoke[*hooks.BillingHook](i),
+			},
+			Retry: 3,
+		},
+		Stream: &provider.StreamExecution{
+			Handler: NewStreamHandler(core.ProviderCodeZhipu),
+			Hooks: []core.StreamHook{
+				do.MustInvoke[*hooks.RequestHook](i),
+				do.MustInvoke[*hooks.StreamWriteHook](i),
+				do.MustInvoke[*hooks.OpenAITokenHook](i),
+				do.MustInvoke[*hooks.BillingHook](i),
+			},
+		},
+	})
+
+	// 智谱适配Claude Code
+	provider.RegisterPlanSet(core.ProviderCodeZhipuClaude, &provider.ProviderPlanSet{
+		Sync: &provider.SyncExecution{
+			Handler: NewHandler(core.ProviderCodeZhipuClaude),
+			Hooks: []core.Hook{
+				do.MustInvoke[*hooks.RequestHook](i),
+				do.MustInvoke[*hooks.OpenAITokenHook](i),
+				do.MustInvoke[*hooks.BillingHook](i),
+			},
+			Retry: 3,
+		},
+		Stream: &provider.StreamExecution{
+			Handler: NewStreamHandler(core.ProviderCodeZhipuClaude),
+			Hooks: []core.StreamHook{
+				do.MustInvoke[*hooks.RequestHook](i),
+				do.MustInvoke[*hooks.StreamWriteHook](i),
+				do.MustInvoke[*hooks.OpenAITokenHook](i),
+				do.MustInvoke[*hooks.BillingHook](i),
+			},
+		},
+	})
+}

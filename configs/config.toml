@@ -1,0 +1,42 @@
+[apiServer]
+name = "api"
+host = ""
+port = 8888
+
+[secret]
+key = ""
+
+[adminServer]
+name = "admin"
+host = ""
+port = 8889 
+
+[logger]
+format = "json"
+level = "debug"
+output = ""
+
+[database]
+host = "127.0.0.1"
+name = "modelgate"
+password = ""
+port = 3306
+type = "mysql"
+user = ""
+
+[redis]
+host = ""
+port = 6379
+password = ""
+db = 0
+
+[temp]
+dir = "./tmp"
+
+[rateLimit]
+enabled = true
+requestsPerSecond = 100.0
+burst = 20
+trustProxy = true
+cleanupInterval = 600
+expireAfter = 3600

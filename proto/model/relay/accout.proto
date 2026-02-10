@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package relay;
+option go_package = "github.com/modelgate/modelgate/pkg/proto/model/relay";
+
+message Account {
+  int64 id = 1;
+  string nickname = 2;
+  string name = 3;
+  int64 balance = 4;
+  string status = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
