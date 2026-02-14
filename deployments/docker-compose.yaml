@@ -1,7 +1,7 @@
 version: "3"
 services:
   modelgate:
-    image: modelgate:modelgate:latest
+    image: ghcr.io/modelgate/modelgate:latest
     container_name: modelgate
     restart: always
     ports:
@@ -9,11 +9,12 @@ services:
       - 8080:8080
     environment:
       TZ: Asia/Shanghai
-      MG_SECRET_KEY: abcdef1234567890
-      MG_DATABASE_TYPE: mysql
-      MG_DATABASE_HOST: 127.0.0.1
-      MG_DATABASE_PORT: 3306
-      MG_DATABASE_USER: root
-      MG_DATABASE_PASSWORD: 123456
-      MG_DATABASE_NAME: modelgate
-      MG_REDIS_PASSWORD: 123456
+      MG_DATABASE_TYPE: ${MG_DATABASE_TYPE}
+      MG_DATABASE_HOST: ${MG_DATABASE_HOST}
+      MG_DATABASE_PORT: ${MG_DATABASE_PORT}
+      MG_DATABASE_USER: ${MG_DATABASE_USER}
+      MG_DATABASE_PASSWORD: ${MG_DATABASE_PASSWORD}
+      MG_DATABASE_NAME: ${MG_DATABASE_NAME}
+      MG_SECRET_KEY: ${MG_SECRET_KEY}
+      MG_REDIS_HOST: ${MG_REDIS_HOST}
+      MG_REDIS_PASSWORD: ${MG_REDIS_PASSWORD}
