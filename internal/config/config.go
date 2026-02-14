@@ -87,7 +87,7 @@ type RateLimitConfig struct {
 	ExpireAfter       int     `env:"EXPIRE_AFTER"`
 }
 
-var configPath string
+var appPath string
 var config *Config
 
 // GetConfig 获取配置
@@ -96,9 +96,15 @@ func GetConfig() *Config {
 }
 
 // Init 初始化配置
-func Init(i do.Injector, cfgFile string) {
+func Init(i do.Injector, _appPath string) {
+	var err error
+	appPath, err = filepath.Abs(_appPath)
+	if err != nil {
+		log.Fatalf("init config err: %v", err)
+	}
+
 	do.Provide(i, func(i do.Injector) (*Config, error) {
-		return NewConfig(cfgFile)
+		return NewConfig(filepath.Join(appPath, "configs/config.toml"))
 	})
 
 	config := do.MustInvoke[*Config](i)
@@ -111,7 +117,8 @@ func Init(i do.Injector, cfgFile string) {
 		cfg := config.Database
 		switch cfg.Type {
 		case "mysql":
-			dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?collation=utf8mb4_general_ci&parseTime=True&loc=Local&timeout=10s&readTimeout=30s&writeTimeout=30s", cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.Name)
+			dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?collation=utf8mb4_general_ci&parseTime=True&loc=Local&multiStatements=true&timeout=10s&readTimeout=30s&writeTimeout=30s",
+				cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.Name)
 			dbConn, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 			if err != nil {
 				return
@@ -154,8 +161,7 @@ func NewConfig(cfgFile string) (*Config, error) {
 		return nil, err
 	}
 	// 将env配置加载到环境变量
-	configPath = filepath.Dir(viper.ConfigFileUsed())
-	if cErr := gotenv.Load(filepath.Join(configPath, ".env")); cErr != nil {
+	if cErr := gotenv.Load(filepath.Join(appPath, ".env")); cErr != nil {
 		log.Debug("load env err:", cErr)
 	}
 	// 读取环境变量
@@ -192,5 +198,5 @@ func initLogger(cfg loggerConfig) error {
 }
 
 func GetPath(path string) string {
-	return filepath.Join(configPath, path)
+	return filepath.Join(appPath, path)
 }

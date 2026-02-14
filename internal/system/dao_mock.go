@@ -777,3 +777,169 @@ func (mr *MockPermissionDAOMockRecorder) UpdateOne(ctx, m, update any) *gomock.C
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOne", reflect.TypeOf((*MockPermissionDAO)(nil).UpdateOne), ctx, m, update)
 }
+
+// MockDataMigrationDAO is a mock of DataMigrationDAO interface.
+type MockDataMigrationDAO struct {
+	ctrl     *gomock.Controller
+	recorder *MockDataMigrationDAOMockRecorder
+	isgomock struct{}
+}
+
+// MockDataMigrationDAOMockRecorder is the mock recorder for MockDataMigrationDAO.
+type MockDataMigrationDAOMockRecorder struct {
+	mock *MockDataMigrationDAO
+}
+
+// NewMockDataMigrationDAO creates a new mock instance.
+func NewMockDataMigrationDAO(ctrl *gomock.Controller) *MockDataMigrationDAO {
+	mock := &MockDataMigrationDAO{ctrl: ctrl}
+	mock.recorder = &MockDataMigrationDAOMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockDataMigrationDAO) EXPECT() *MockDataMigrationDAOMockRecorder {
+	return m.recorder
+}
+
+// AutoMigrate mocks base method.
+func (m *MockDataMigrationDAO) AutoMigrate() error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AutoMigrate")
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// AutoMigrate indicates an expected call of AutoMigrate.
+func (mr *MockDataMigrationDAOMockRecorder) AutoMigrate() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AutoMigrate", reflect.TypeOf((*MockDataMigrationDAO)(nil).AutoMigrate))
+}
+
+// Count mocks base method.
+func (m *MockDataMigrationDAO) Count(ctx context.Context, filter *model.DataMigrationFilter) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Count", ctx, filter)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Count indicates an expected call of Count.
+func (mr *MockDataMigrationDAOMockRecorder) Count(ctx, filter any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Count", reflect.TypeOf((*MockDataMigrationDAO)(nil).Count), ctx, filter)
+}
+
+// Create mocks base method.
+func (m_2 *MockDataMigrationDAO) Create(ctx context.Context, m *model.DataMigration) error {
+	m_2.ctrl.T.Helper()
+	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Create indicates an expected call of Create.
+func (mr *MockDataMigrationDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockDataMigrationDAO)(nil).Create), ctx, m)
+}
+
+// Delete mocks base method.
+func (m *MockDataMigrationDAO) Delete(ctx context.Context, filter *model.DataMigrationFilter) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Delete", ctx, filter)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Delete indicates an expected call of Delete.
+func (mr *MockDataMigrationDAOMockRecorder) Delete(ctx, filter any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Delete", reflect.TypeOf((*MockDataMigrationDAO)(nil).Delete), ctx, filter)
+}
+
+// Find mocks base method.
+func (m *MockDataMigrationDAO) Find(ctx context.Context, filter *model.DataMigrationFilter, opts ...db.Option) ([]*model.DataMigration, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, filter}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "Find", varargs...)
+	ret0, _ := ret[0].([]*model.DataMigration)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockDataMigrationDAOMockRecorder) Find(ctx, filter any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, filter}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockDataMigrationDAO)(nil).Find), varargs...)
+}
+
+// FindOne mocks base method.
+func (m *MockDataMigrationDAO) FindOne(ctx context.Context, filter *model.DataMigrationFilter, opts ...db.Option) (*model.DataMigration, error) {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, filter}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "FindOne", varargs...)
+	ret0, _ := ret[0].(*model.DataMigration)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindOne indicates an expected call of FindOne.
+func (mr *MockDataMigrationDAOMockRecorder) FindOne(ctx, filter any, opts ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, filter}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOne", reflect.TypeOf((*MockDataMigrationDAO)(nil).FindOne), varargs...)
+}
+
+// FindOneByID mocks base method.
+func (m *MockDataMigrationDAO) FindOneByID(ctx context.Context, id int64) (*model.DataMigration, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindOneByID", ctx, id)
+	ret0, _ := ret[0].(*model.DataMigration)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindOneByID indicates an expected call of FindOneByID.
+func (mr *MockDataMigrationDAOMockRecorder) FindOneByID(ctx, id any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOneByID", reflect.TypeOf((*MockDataMigrationDAO)(nil).FindOneByID), ctx, id)
+}
+
+// Update mocks base method.
+func (m *MockDataMigrationDAO) Update(ctx context.Context, filter *model.DataMigrationFilter, update map[string]any) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, filter, update)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockDataMigrationDAOMockRecorder) Update(ctx, filter, update any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockDataMigrationDAO)(nil).Update), ctx, filter, update)
+}
+
+// UpdateOne mocks base method.
+func (m_2 *MockDataMigrationDAO) UpdateOne(ctx context.Context, m *model.DataMigration, update map[string]any) error {
+	m_2.ctrl.T.Helper()
+	ret := m_2.ctrl.Call(m_2, "UpdateOne", ctx, m, update)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateOne indicates an expected call of UpdateOne.
+func (mr *MockDataMigrationDAOMockRecorder) UpdateOne(ctx, m, update any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateOne", reflect.TypeOf((*MockDataMigrationDAO)(nil).UpdateOne), ctx, m, update)
+}

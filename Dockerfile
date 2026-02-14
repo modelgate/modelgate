@@ -82,6 +82,8 @@ COPY --from=go-builder /build/modelgate .
 # Copy configs
 COPY --from=go-builder /build/configs ./configs
 
+COPY --from=go-builder /build/migration ./migration
+
 # Copy web UI from web-builder
 COPY --from=web-builder /app/web/dist /app/web/dist
 

@@ -62,3 +62,15 @@ type PermissionDAO interface {
 	FindOne(ctx context.Context, filter *model.PermissionFilter, opts ...db.Option) (*model.Permission, error)
 	Delete(ctx context.Context, filter *model.PermissionFilter) (int64, error)
 }
+
+type DataMigrationDAO interface {
+	AutoMigrate() error
+	Create(ctx context.Context, m *model.DataMigration) error
+	Update(ctx context.Context, filter *model.DataMigrationFilter, update map[string]any) (int64, error)
+	UpdateOne(ctx context.Context, m *model.DataMigration, update map[string]any) error
+	Count(ctx context.Context, filter *model.DataMigrationFilter) (int64, error)
+	Find(ctx context.Context, filter *model.DataMigrationFilter, opts ...db.Option) ([]*model.DataMigration, error)
+	FindOneByID(ctx context.Context, id int64) (*model.DataMigration, error)
+	FindOne(ctx context.Context, filter *model.DataMigrationFilter, opts ...db.Option) (*model.DataMigration, error)
+	Delete(ctx context.Context, filter *model.DataMigrationFilter) (int64, error)
+}

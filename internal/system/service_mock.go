@@ -116,6 +116,20 @@ func (mr *MockServiceMockRecorder) CreateUser(ctx, user any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockService)(nil).CreateUser), ctx, user)
 }
 
+// DataMigrate mocks base method.
+func (m *MockService) DataMigrate(ctx context.Context) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DataMigrate", ctx)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DataMigrate indicates an expected call of DataMigrate.
+func (mr *MockServiceMockRecorder) DataMigrate(ctx any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DataMigrate", reflect.TypeOf((*MockService)(nil).DataMigrate), ctx)
+}
+
 // DeleteMenus mocks base method.
 func (m *MockService) DeleteMenus(ctx context.Context, req *model.DeleteMenusRequest) error {
 	m.ctrl.T.Helper()

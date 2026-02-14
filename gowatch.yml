@@ -2,7 +2,7 @@ appname: "modelgate"
 run_cmd: "./modelgate"
 cmd_args:
    - "all"
-   - "--config=./configs/config.toml"
+   - "--app_path=./"
 watch_exts:
    - .go
    - .toml

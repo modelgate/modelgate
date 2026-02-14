@@ -26,6 +26,7 @@ const (
 	TableMenus          = "menus"
 	TableApiPermissions = "api_permissions"
 	TablePermissions    = "permissions"
+	TableDataMigrations = "data_migrations"
 )
 
 var UsernameReg = regexp.MustCompile("^[a-zA-Z0-9]([a-zA-Z0-9-_]{1,30}[a-zA-Z0-9])$")

@@ -108,10 +108,10 @@ buf generate
 复制并编辑环境变量：
 
 ```bash
-cp configs/.env.example configs/.env
+cp .env.example .env
 ```
 
-编辑 `configs/.env` 和 `configs/config.toml`：
+编辑 `.env` 和 `configs/config.toml`：
 
 ```toml
 [apiServer]

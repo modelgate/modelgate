@@ -27,7 +27,7 @@ import (
 )
 
 var (
-	cfgFile   string
+	appPath   string
 	container do.Injector
 	Version   string = "unknown"
 	BuildTime string = "unknown"
@@ -103,6 +103,8 @@ var (
 		Long:  "自动管理数据库表结构",
 		Run: func(cmd *cobra.Command, args []string) {
 			dbConn := do.MustInvoke[*gorm.DB](container)
+
+			// 执行 GORM AutoMigrate
 			dbConn.AutoMigrate(
 				// Relay
 				&relaymodel.Account{},
@@ -208,7 +210,7 @@ func main() {
 	}
 
 	cobra.OnInitialize(func() {
-		config.Init(container, cfgFile)
+		config.Init(container, appPath)
 		config.CheckReady(container)
 
 		systemimpl.Init(container)
@@ -217,7 +219,7 @@ func main() {
 		app.Init(container)
 	})
 
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "configs/config.toml", "config file")
+	rootCmd.PersistentFlags().StringVarP(&appPath, "app_path", "p", "./", "app path")
 	rootCmd.AddCommand(apiCmd, adminCmd, migrateCmd, allCmd)
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
 

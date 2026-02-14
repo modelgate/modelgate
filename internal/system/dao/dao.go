@@ -11,4 +11,5 @@ func Init(i do.Injector) {
 	do.Provide(i, NewRoleDao)
 	do.Provide(i, NewMenuDao)
 	do.Provide(i, NewPermissionDao)
+	do.Provide(i, NewDataMigrationDao)
 }

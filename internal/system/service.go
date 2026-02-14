@@ -37,4 +37,6 @@ type Service interface {
 	CreatePermission(ctx context.Context, permission *model.CreatePermissionRequest) (*model.Permission, error)
 	UpdatePermission(ctx context.Context, req *model.UpdatePermissionRequest) (*model.Permission, error)
 	DeletePermissions(ctx context.Context, req *model.DeletePermissionsRequest) error
+
+	DataMigrate(ctx context.Context) error
 }
