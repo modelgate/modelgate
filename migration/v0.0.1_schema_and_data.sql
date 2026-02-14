@@ -446,3 +446,11 @@ VALUES
 	('admin', '管理员', 'admin@modelgate.io', '13812345678', 'male', '10000', '$2a$10$DSoYy8I0/cpbXUypPVyTE.HWjEnfD0dDoYAeCpXreKsobEPUv0fXK', '', ' 超级管理员', 'enabled', '2025-04-26 00:07:33.000', '2025-05-25 22:54:52.000');
 
 UNLOCK TABLES;
+
+LOCK TABLES `relay_usages` WRITE;
+
+INSERT INTO `relay_usages` (`id`, `total_request`, `total_success`, `total_failed`, `total_point`, `created_at`, `updated_at`)
+VALUES
+	(1, 0, 0, 0, 0, '2026-02-01 00:00:00.000', '2026-02-01 00:00:00.000');
+
+UNLOCK TABLES;

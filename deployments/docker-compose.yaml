@@ -1,9 +1,10 @@
-version: "3"
 services:
   modelgate:
-    image: ghcr.io/modelgate/modelgate:latest
+    image: modelgate:latest
     container_name: modelgate
     restart: always
+    build:
+      context: ..
     ports:
       - 8088:8088
       - 8080:8080
@@ -18,3 +19,32 @@ services:
       MG_SECRET_KEY: ${MG_SECRET_KEY}
       MG_REDIS_HOST: ${MG_REDIS_HOST}
       MG_REDIS_PASSWORD: ${MG_REDIS_PASSWORD}
+    depends_on:
+      - mysql8
+      - redis
+
+  mysql8:
+    image: mysql:8.4.7
+    container_name: mysql8
+    restart: always
+    volumes:
+      - ./mysql8/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: abcdef123456
+      MYSQL_DATABASE: ${MG_DATABASE_NAME}
+      MYSQL_USER: ${MG_DATABASE_USER}
+      MYSQL_PASSWORD: ${MG_DATABASE_PASSWORD}
+
+  redis:
+    image: redis:8.4-alpine
+    container_name: redis
+    restart: always
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf

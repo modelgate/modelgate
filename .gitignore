@@ -35,3 +35,6 @@ tmp/
 .DS_Store
 /modelgate
 __debug_bin*
+
+deployments/mysql8
+deployments/redis
