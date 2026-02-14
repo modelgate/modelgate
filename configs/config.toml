@@ -1,7 +1,7 @@
 [apiServer]
 name = "api"
 host = ""
-port = 8888
+port = 8088
 
 [secret]
 key = ""
@@ -9,7 +9,7 @@ key = ""
 [adminServer]
 name = "admin"
 host = ""
-port = 8889 
+port = 8080 
 
 [logger]
 format = "json"
