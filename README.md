@@ -142,10 +142,10 @@ go run cmd/main.go migrate
 #### 4. 启动服务
 
 ```bash
-# 启动 API 转发服务 (端口 8888)
+# 启动 API 转发服务 (端口 8088)
 go run cmd/main.go api
 
-# 启动管理后台服务 (端口 8889)
+# 启动管理后台服务 (端口 8080)
 go run cmd/main.go admin
 
 # 同时启动两个服务
@@ -166,7 +166,7 @@ pnpm install
 编辑 `web/.env`，设置后端服务地址：
 
 ```env
-VITE_PUBLIC_GRPC_SERVICE_URL="http://localhost:8889"
+VITE_PUBLIC_GRPC_SERVICE_URL="http://localhost:8080/api"
 ```
 
 #### 3. 启动开发服务器
@@ -202,14 +202,27 @@ docker build -t modelgate:latest .
 
 # 运行容器
 docker run -d \
-  -p 8888:8888 \
-  -p 8889:8889 \
-  -e TD_DATABASE_HOST=your_db_host \
-  -e TD_DATABASE_PASSWORD=your_db_password \
+  -p 8088:8088 \
+  -p 8080:8080 \
+  -e MG_KEY_SECRET=your_key_secret \
+  -e MG_DATABASE_HOST=your_db_host \
+  -e MG_DATABASE_PASSWORD=your_db_password \
+  -e MG_DATABASE_USER=your_db_user \
+  -e MG_DATABASE_NAME=your_db_name \
+  -e MG_DATABASE_PORT=your_db_port \
+  -e MG_REDIS_HOST=your_redis_host \
+  -e MG_REDIS_PASSWORD=your_redis_password \
   modelgate:latest
 ```
 
 ---
+
+## 访问地址
+
+- API 转发服务: `http://localhost:8088`
+- 管理后台服务: `http://localhost:8080`
+- 默认账号：admin
+- 默认密码：123456
 
 ## 开发指南
 
