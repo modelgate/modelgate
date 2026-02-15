@@ -52,7 +52,7 @@ func (d *BaseDAO[M, F]) Find(ctx context.Context, f *F, opts ...Option) (ms []*M
 
 func (d *BaseDAO[M, F]) FindOne(ctx context.Context, f *F, opts ...Option) (*M, error) {
 	var m M
-	if err := Apply(d.db, WithFilter(f), opts...).Find(&m).Error; err != nil {
+	if err := Apply(d.db, WithFilter(f), opts...).Take(&m).Error; err != nil {
 		return nil, err
 	}
 	return &m, nil
