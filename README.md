@@ -1,5 +1,5 @@
 <div align="center">
-	<h1>ModelGate</h1>
+	<h1><img src="./assets/logo.svg" alt="ModelGate Logo" width="35" height="35">ModelGate</h1>
 	<p>一个企业级大模型 API 网关与管理平台</p>
 </div>
 
@@ -34,6 +34,9 @@ ModelGate 采用前后端分离架构，由以下两部分组成：
 - **速率限制** - 内置请求速率限制功能
 - **Redis 缓存** - 支持 Redis 缓存提升性能
 
+### 项目截图
+
+![项目截图](./assets/screenshot_001.png)
 ---
 
 ## 技术栈
