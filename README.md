@@ -1,6 +1,6 @@
 <div align="center">
-	<h1><img src="./assets/logo.svg" alt="ModelGate Logo" width="35" height="35">ModelGate</h1>
-	<p>一个企业级大模型 API 网关与管理平台</p>
+  <img src="./assets/logo.png" alt="ModelGate Logo" width="300" height="75">
+	<h3>一个企业级大模型 API 网关与管理平台</h3>
 </div>
 
 ---
