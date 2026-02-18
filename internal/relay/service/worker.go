@@ -32,7 +32,7 @@ func (s *Service) StartWorker(ctx context.Context) {
 				if err := s.saveCachedUsageToDB(ctx); err != nil {
 					log.Error("save cached usage to db error", err)
 				}
-				if err := s.cleanExpiredUsageKeys(ctx); err != nil {
+				if err := s.cleanExpiredUsageKeys(ctx); err != nil && !errors.Is(err, redis.Nil) {
 					log.Error("clean expired usage keys error", err)
 				}
 			}

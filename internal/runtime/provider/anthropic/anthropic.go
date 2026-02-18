@@ -5,28 +5,22 @@ import (
 
 	"github.com/modelgate/modelgate/internal/runtime/core"
 	"github.com/modelgate/modelgate/internal/runtime/hooks"
-	"github.com/modelgate/modelgate/internal/runtime/provider"
 )
 
 func Init(i do.Injector) {
-	provider.RegisterPlanSet(core.ProviderCodeAnthropic, &provider.ProviderPlanSet{
-		Sync: &provider.SyncExecution{
-			Handler: NewHandler(core.ProviderCodeAnthropic),
-			Hooks: []core.Hook{
-				do.MustInvoke[*hooks.RequestHook](i),
-				do.MustInvoke[*hooks.OpenAITokenHook](i),
-				do.MustInvoke[*hooks.BillingHook](i),
-			},
-			Retry: 3,
-		},
-		Stream: &provider.StreamExecution{
-			Handler: NewHandler(core.ProviderCodeAnthropic),
-			Hooks: []core.Hook{
-				do.MustInvoke[*hooks.RequestHook](i),
-				do.MustInvoke[*hooks.StreamWriteHook](i),
-				do.MustInvoke[*hooks.OpenAITokenHook](i),
-				do.MustInvoke[*hooks.BillingHook](i),
-			},
-		},
+	reqHook := do.MustInvoke[*hooks.RequestHook](i)
+	tokenHook := do.MustInvoke[*hooks.OpenAITokenHook](i)
+	billingHook := do.MustInvoke[*hooks.BillingHook](i)
+	streamWriteHook := do.MustInvoke[*hooks.StreamWriteHook](i)
+
+	handler := NewHandler(core.ProviderCodeAnthropic)
+
+	core.ExecutorRegistry.Register(core.ProviderCodeAnthropic, func(opts core.Options) (core.Executor, error) {
+		if opts.IsStream {
+			return core.NewStreamExecutor(handler, reqHook, streamWriteHook, tokenHook, billingHook), nil
+		} else {
+			base := core.NewExecutor(handler, reqHook, tokenHook, billingHook)
+			return core.NewRetryExecutor(base, opts.Retry), nil
+		}
 	})
 }

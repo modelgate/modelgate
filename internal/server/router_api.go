@@ -24,5 +24,5 @@ func registerRouters(container do.Injector, engine *gin.Engine) {
 	rgv1.POST("/completions", relayService.Run)
 	rgv1.POST("/chat/completions", relayService.Run)
 	rgv1.POST("/embeddings", relayService.Run)
-	rgv1.POST("/relay/:provider/*path", relayService.RunWithProvider)
+	rgv1.POST("/relay/anthropic/:provider/*path", relayService.RunWithProvider)
 }

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/samber/do/v2"
@@ -19,13 +20,11 @@ import (
 
 type RelayService struct {
 	relayService relay.Service
-	runtime      *runtime.Runtime
 }
 
 func NewRelayService(i do.Injector) (*RelayService, error) {
 	return &RelayService{
 		relayService: do.MustInvoke[relay.Service](i),
-		runtime:      do.MustInvoke[*runtime.Runtime](i),
 	}, nil
 }
 
@@ -75,17 +74,19 @@ func (s *RelayService) run(c *gin.Context, relayProvider, relayPath string) (err
 	rCtx := core.Get()
 	defer core.Put(rCtx)
 	rCtx.RequestUUID = utils.NewUUIDv7()
+	rCtx.AttemptNo = 1
 	rCtx.CurrentModel = cModel
 	rCtx.AccountApiKeyId = common.GetApiKeyId(c)
 	rCtx.AccountId = common.GetAccountId(c)
 	rCtx.UrlPath = lo.Ternary(relayPath != "", relayPath, c.Request.URL.Path)
+	rCtx.IsAnthropic = strings.HasPrefix(c.Request.URL.Path, "/v1/relay/anthropic/")
 	rCtx.InputBody = inputData
 	rCtx.Header = c.Request.Header
 	if stream {
 		rCtx.IsStream = true
 		rCtx.StreamWriter = newGinSSEWriter(c)
 	}
-	if err = s.runtime.Run(c, rCtx); err != nil {
+	if err = runtime.Run(c, rCtx); err != nil {
 		return
 	}
 	if stream {

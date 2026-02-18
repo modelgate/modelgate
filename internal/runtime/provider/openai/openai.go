@@ -5,46 +5,36 @@ import (
 
 	"github.com/modelgate/modelgate/internal/runtime/core"
 	"github.com/modelgate/modelgate/internal/runtime/hooks"
-	"github.com/modelgate/modelgate/internal/runtime/provider"
 )
 
 func Init(i do.Injector) {
-	baseHooks := []core.Hook{
-		do.MustInvoke[*hooks.RequestHook](i),
-		do.MustInvoke[*hooks.OpenAITokenHook](i),
-		do.MustInvoke[*hooks.BillingHook](i),
+	reqHook := do.MustInvoke[*hooks.RequestHook](i)
+	tokenHook := do.MustInvoke[*hooks.OpenAITokenHook](i)
+	billingHook := do.MustInvoke[*hooks.BillingHook](i)
+	streamWriteHook := do.MustInvoke[*hooks.StreamWriteHook](i)
+
+	{
+		handler := NewHandler(core.ProviderCodeOpenAI)
+
+		core.ExecutorRegistry.Register(core.ProviderCodeOpenAI, func(opts core.Options) (core.Executor, error) {
+			if opts.IsStream {
+				return core.NewStreamExecutor(handler, reqHook, streamWriteHook, tokenHook, billingHook), nil
+			} else {
+				base := core.NewExecutor(handler, reqHook, tokenHook, billingHook)
+				return core.NewRetryExecutor(base, opts.Retry), nil
+			}
+		})
 	}
+	{
+		handler := NewHandler(core.ProviderCodeDeepSeek)
 
-	streamHooks := []core.Hook{
-		do.MustInvoke[*hooks.RequestHook](i),
-		do.MustInvoke[*hooks.StreamWriteHook](i),
-		do.MustInvoke[*hooks.OpenAITokenHook](i),
-		do.MustInvoke[*hooks.BillingHook](i),
+		core.ExecutorRegistry.Register(core.ProviderCodeDeepSeek, func(opts core.Options) (core.Executor, error) {
+			if opts.IsStream {
+				return core.NewStreamExecutor(handler, reqHook, streamWriteHook, tokenHook, billingHook), nil
+			} else {
+				base := core.NewExecutor(handler, reqHook, tokenHook, billingHook)
+				return core.NewRetryExecutor(base, opts.Retry), nil
+			}
+		})
 	}
-
-	// OpenAI
-	provider.RegisterPlanSet((core.ProviderCodeOpenAI), &provider.ProviderPlanSet{
-		Sync: &provider.SyncExecution{
-			Handler: NewHandler(core.ProviderCodeOpenAI),
-			Hooks:   baseHooks,
-			Retry:   3,
-		},
-		Stream: &provider.StreamExecution{
-			Handler: NewHandler(core.ProviderCodeOpenAI),
-			Hooks:   streamHooks,
-		},
-	})
-
-	// DeepSeek
-	provider.RegisterPlanSet(core.ProviderCodeDeepSeek, &provider.ProviderPlanSet{
-		Sync: &provider.SyncExecution{
-			Handler: NewHandler(core.ProviderCodeDeepSeek),
-			Hooks:   baseHooks,
-			Retry:   3,
-		},
-		Stream: &provider.StreamExecution{
-			Handler: NewHandler(core.ProviderCodeDeepSeek),
-			Hooks:   streamHooks,
-		},
-	})
 }

@@ -6,28 +6,24 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-type Execution interface {
-	Execute(ctx context.Context, c *Context) error
+type Executor interface {
+	Execute(ctx context.Context, c *Context) (err error)
 }
 
-type StreamExecution interface {
-	Execute(ctx context.Context, c *Context) error
-}
-
-type Executor struct {
+type executor struct {
 	handler Handler
 	hooks   []Hook
 }
 
-func NewExecutor(h Handler, hooks ...Hook) *Executor {
-	return &Executor{
+func NewExecutor(h Handler, hooks ...Hook) Executor {
+	return &executor{
 		handler: h,
 		hooks:   hooks,
 	}
 }
 
 // Execute 执行
-func (e *Executor) Execute(ctx context.Context, c *Context) (err error) {
+func (e *executor) Execute(ctx context.Context, c *Context) (err error) {
 	// hooks before
 	for _, h := range e.hooks {
 		log.Debugf("hook %s before request...", h.Name())
@@ -52,7 +48,7 @@ func (e *Executor) Execute(ctx context.Context, c *Context) (err error) {
 	return
 }
 
-func (e *Executor) execute(ctx context.Context, c *Context) (err error) {
+func (e *executor) execute(ctx context.Context, c *Context) (err error) {
 	// provider before
 	log.Debugf("provider %s, model: %s before request...", e.handler.Provider(), c.CurrentModel.ModelCode)
 	if err = e.handler.BeforeRequest(ctx, c); err != nil {
@@ -74,4 +70,34 @@ func (e *Executor) execute(ctx context.Context, c *Context) (err error) {
 		return
 	}
 	return
+}
+
+type retryExecutor struct {
+	base  Executor
+	retry int
+}
+
+// NewRetryExecutor 创建重试执行器，retry <= 0 时返回原执行器
+func NewRetryExecutor(base Executor, retry int) Executor {
+	if retry <= 0 {
+		return base
+	}
+	return &retryExecutor{
+		base:  base,
+		retry: retry,
+	}
+}
+
+// Execute 执行并重试
+func (r *retryExecutor) Execute(ctx context.Context, c *Context) (err error) {
+	for i := 0; i <= r.retry; i++ {
+		c.AttemptNo = i + 1
+		c.LastErr = nil
+		err = r.base.Execute(ctx, c)
+		if err == nil {
+			return nil
+		}
+		log.Warnf("executor attempt %d failed: %v", c.AttemptNo, err)
+	}
+	return err
 }

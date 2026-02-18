@@ -1,11 +1,11 @@
 package core
 
 const (
-	ProviderCodeAnthropic   string = "anthropic"    // Anthropic
-	ProviderCodeDeepSeek    string = "deepseek"     // DeepSeek
-	ProviderCodeOpenAI      string = "openai"       // OpenAI
-	ProviderCodeZhipu       string = "zhipu"        // 智谱 - bigmodel
-	ProviderCodeZhipuClaude string = "zhipu-claude" // 智谱 - claude
+	ProviderCodeAnthropic string = "anthropic" // Anthropic
+	ProviderCodeDeepSeek  string = "deepseek"  // DeepSeek
+	ProviderCodeOpenAI    string = "openai"    // OpenAI
+	ProviderCodeZhipu     string = "zhipu"     // 智谱 - bigmodel
+	ProviderCodeMinimax   string = "minimax"   // MiniMax
 )
 
 var AllProviderCodeList = []string{
@@ -13,7 +13,7 @@ var AllProviderCodeList = []string{
 	ProviderCodeDeepSeek,
 	ProviderCodeOpenAI,
 	ProviderCodeZhipu,
-	ProviderCodeZhipuClaude,
+	ProviderCodeMinimax,
 }
 
 // Model 模型

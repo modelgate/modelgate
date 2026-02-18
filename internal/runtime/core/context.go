@@ -16,6 +16,7 @@ type Context struct {
 	AttemptNo    int
 	RequestId    int64
 	UrlPath      string
+	IsAnthropic  bool
 	ProviderCode string
 	ModelCode    string
 	CurrentModel *Model // 模型

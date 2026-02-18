@@ -7,28 +7,26 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// StreamExecutor 流式执行器
-type StreamExecutor struct {
+type streamExecutor struct {
 	handler Handler
 	hooks   []Hook
 }
 
 // NewStreamExecutor 创建流式执行器
-func NewStreamExecutor(h Handler, hooks ...Hook) *StreamExecutor {
-	return &StreamExecutor{
+func NewStreamExecutor(h Handler, hooks ...Hook) Executor {
+	return &streamExecutor{
 		handler: h,
 		hooks:   hooks,
 	}
 }
 
 // Execute 执行流式处理
-func (e *StreamExecutor) Execute(ctx context.Context, c *Context) error {
+func (e *streamExecutor) Execute(ctx context.Context, c *Context) error {
 	// hooks before
 	for _, h := range e.hooks {
 		log.Debugf("hook: %s, before...", h.Name())
-		if err := h.Before(ctx, c); err != nil {
-			log.Errorf("hook %s before error: %v", h.Name(), err)
-			return err
+		if hErr := h.Before(ctx, c); hErr != nil {
+			log.Errorf("hook %s before error: %v", h.Name(), hErr)
 		}
 	}
 
@@ -70,16 +68,15 @@ func (e *StreamExecutor) Execute(ctx context.Context, c *Context) error {
 
 	// hooks after（反向）
 	for i := len(e.hooks) - 1; i >= 0; i-- {
-		log.Debugf("hook: %s, after...", e.hooks[i].Name())
-		if err := e.hooks[i].After(ctx, c); err != nil {
-			log.Errorf("hook %s after error: %v", e.hooks[i].Name(), err)
-			return err
+		log.Debugf("after hook %s ...", e.hooks[i].Name())
+		if hErr := e.hooks[i].After(ctx, c); hErr != nil {
+			log.Errorf("hook %s after error: %v", e.hooks[i].Name(), hErr)
 		}
 	}
 	return nil
 }
 
-func (e *StreamExecutor) callOnError(ctx context.Context, c *Context, err error) {
+func (e *streamExecutor) callOnError(ctx context.Context, c *Context, err error) {
 	for _, h := range e.hooks {
 		h.OnError(ctx, c, err)
 	}

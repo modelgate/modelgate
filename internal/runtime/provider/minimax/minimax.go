@@ -1,4 +1,4 @@
-package zhipu
+package minimax
 
 import (
 	"github.com/samber/do/v2"
@@ -16,8 +16,8 @@ func Init(i do.Injector) {
 	openaiHandler := NewOpenAIHandler()
 	anthropicHandler := NewAnthropicHandler()
 
-	// 智谱同时支持 OpenAI 和 Anthropic 协议，根据 opts.UrlPath 选择对应 handler
-	core.ExecutorRegistry.Register(core.ProviderCodeZhipu, func(opts core.Options) (core.Executor, error) {
+	// MiniMax 同时支持 OpenAI 和 Anthropic 协议，根据 opts.UrlPath 选择对应 handler
+	core.ExecutorRegistry.Register(core.ProviderCodeMinimax, func(opts core.Options) (core.Executor, error) {
 		var handler core.Handler
 		if opts.IsAnthropic {
 			handler = anthropicHandler
