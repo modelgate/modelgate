@@ -23,7 +23,6 @@ type OpenAITokenHook struct {
 }
 
 var _ core.Hook = (*OpenAITokenHook)(nil)
-var _ core.StreamHook = (*OpenAITokenHook)(nil)
 
 func NewOpenAITokenHook(i do.Injector) (*OpenAITokenHook, error) {
 	return &OpenAITokenHook{}, nil
@@ -62,8 +61,7 @@ func (h *OpenAITokenHook) Before(ctx context.Context, c *core.Context) (err erro
 
 // After 执行后
 func (h *OpenAITokenHook) After(ctx context.Context, c *core.Context) (err error) {
-	// 接口返回了Usage,不再计算
-	if c.Usage != nil {
+	if c.IsStream || c.Usage != nil {
 		return
 	}
 	var respData struct {
@@ -82,14 +80,6 @@ func (h *OpenAITokenHook) After(ctx context.Context, c *core.Context) (err error
 	}
 	log.Info("token num: ", tokenNum)
 	return
-}
-
-func (h *OpenAITokenHook) BeforeStream(ctx context.Context, c *core.Context) (err error) {
-	return h.Before(ctx, c)
-}
-
-func (h *OpenAITokenHook) AfterStream(ctx context.Context, c *core.Context) (err error) {
-	return nil
 }
 
 func (h *OpenAITokenHook) OnChunk(ctx context.Context, c *core.Context, chunk *core.StreamChunk) (err error) {

@@ -21,7 +21,7 @@ func Init(i do.Injector) {
 		},
 		Stream: &provider.StreamExecution{
 			Handler: NewStreamHandler(core.ProviderCodeAnthropic),
-			Hooks: []core.StreamHook{
+			Hooks: []core.Hook{
 				do.MustInvoke[*hooks.RequestHook](i),
 				do.MustInvoke[*hooks.StreamWriteHook](i),
 				do.MustInvoke[*hooks.OpenAITokenHook](i),

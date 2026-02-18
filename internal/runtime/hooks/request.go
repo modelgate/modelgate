@@ -17,7 +17,6 @@ type RequestHook struct {
 }
 
 var _ core.Hook = (*RequestHook)(nil)
-var _ core.StreamHook = (*RequestHook)(nil)
 
 // NewRequestHook 创建请求Hook
 func NewRequestHook(i do.Injector) (*RequestHook, error) {
@@ -77,16 +76,6 @@ func (h *RequestHook) After(ctx context.Context, c *core.Context) (err error) {
 	}
 	err = h.service.UpdateRequestCompleted(ctx, &req)
 	return
-}
-
-// BeforeStream 流执行前
-func (h *RequestHook) BeforeStream(ctx context.Context, c *core.Context) (err error) {
-	return h.Before(ctx, c)
-}
-
-// AfterStream 流执行后
-func (h *RequestHook) AfterStream(ctx context.Context, c *core.Context) (err error) {
-	return h.After(ctx, c)
 }
 
 // OnChunk 流chunk

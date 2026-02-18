@@ -22,7 +22,7 @@ func Init(i do.Injector) {
 		},
 		Stream: &provider.StreamExecution{
 			Handler: NewStreamHandler(core.ProviderCodeZhipu),
-			Hooks: []core.StreamHook{
+			Hooks: []core.Hook{
 				do.MustInvoke[*hooks.RequestHook](i),
 				do.MustInvoke[*hooks.StreamWriteHook](i),
 				do.MustInvoke[*hooks.OpenAITokenHook](i),
@@ -44,7 +44,7 @@ func Init(i do.Injector) {
 		},
 		Stream: &provider.StreamExecution{
 			Handler: NewStreamHandler(core.ProviderCodeZhipuClaude),
-			Hooks: []core.StreamHook{
+			Hooks: []core.Hook{
 				do.MustInvoke[*hooks.RequestHook](i),
 				do.MustInvoke[*hooks.StreamWriteHook](i),
 				do.MustInvoke[*hooks.OpenAITokenHook](i),

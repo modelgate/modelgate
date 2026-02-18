@@ -15,7 +15,7 @@ func Init(i do.Injector) {
 		do.MustInvoke[*hooks.BillingHook](i),
 	}
 
-	streamHooks := []core.StreamHook{
+	streamHooks := []core.Hook{
 		do.MustInvoke[*hooks.RequestHook](i),
 		do.MustInvoke[*hooks.StreamWriteHook](i),
 		do.MustInvoke[*hooks.OpenAITokenHook](i),

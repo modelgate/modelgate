@@ -17,7 +17,6 @@ type BillingHook struct {
 }
 
 var _ core.Hook = (*BillingHook)(nil)
-var _ core.StreamHook = (*BillingHook)(nil)
 
 func NewBillingHook(i do.Injector) (*BillingHook, error) {
 	return &BillingHook{
@@ -83,14 +82,6 @@ func (h *BillingHook) After(ctx context.Context, c *core.Context) (err error) {
 		log.Errorf("AddPointUsage provider_code: %s, provider_api_key: %d, account_api_key: %d, total_cost: %d, error: %v", modelInfo.ProviderCode, modelInfo.ApiKeyId, c.AccountApiKeyId, totalCost, eErr)
 	}
 	return
-}
-
-func (h *BillingHook) BeforeStream(ctx context.Context, c *core.Context) (err error) {
-	return h.Before(ctx, c)
-}
-
-func (h *BillingHook) AfterStream(ctx context.Context, c *core.Context) (err error) {
-	return h.After(ctx, c)
 }
 
 func (h *BillingHook) OnChunk(ctx context.Context, c *core.Context, chunk *core.StreamChunk) (err error) {

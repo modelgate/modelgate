@@ -11,7 +11,7 @@ import (
 type StreamWriteHook struct {
 }
 
-var _ core.StreamHook = (*StreamWriteHook)(nil)
+var _ core.Hook = (*StreamWriteHook)(nil)
 
 func NewStreamHook(i do.Injector) (*StreamWriteHook, error) {
 	return &StreamWriteHook{}, nil
@@ -21,14 +21,14 @@ func (h *StreamWriteHook) Name() string {
 	return "stream_write"
 }
 
-func (h *StreamWriteHook) BeforeStream(ctx context.Context, c *core.Context) error {
+func (h *StreamWriteHook) Before(ctx context.Context, c *core.Context) error {
 	if c.StreamWriter != nil {
 		_ = c.StreamWriter.Open()
 	}
 	return nil
 }
 
-func (h *StreamWriteHook) AfterStream(ctx context.Context, c *core.Context) error {
+func (h *StreamWriteHook) After(ctx context.Context, c *core.Context) error {
 	if c.StreamWriter != nil {
 		_ = c.StreamWriter.Close()
 	}
