@@ -21,7 +21,7 @@ func Init(i do.Injector) {
 			Retry: 3,
 		},
 		Stream: &provider.StreamExecution{
-			Handler: NewStreamHandler(core.ProviderCodeZhipu),
+			Handler: NewHandler(core.ProviderCodeZhipu),
 			Hooks: []core.Hook{
 				do.MustInvoke[*hooks.RequestHook](i),
 				do.MustInvoke[*hooks.StreamWriteHook](i),
@@ -43,7 +43,7 @@ func Init(i do.Injector) {
 			Retry: 3,
 		},
 		Stream: &provider.StreamExecution{
-			Handler: NewStreamHandler(core.ProviderCodeZhipuClaude),
+			Handler: NewHandler(core.ProviderCodeZhipuClaude),
 			Hooks: []core.Hook{
 				do.MustInvoke[*hooks.RequestHook](i),
 				do.MustInvoke[*hooks.StreamWriteHook](i),

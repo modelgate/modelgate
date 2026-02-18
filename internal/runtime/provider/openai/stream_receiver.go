@@ -14,7 +14,8 @@ type StreamReceiver struct {
 	body   io.ReadCloser
 }
 
-func newStreamReceiver(body io.ReadCloser) core.Stream {
+// NewStreamReceiver 创建流式接收器
+func NewStreamReceiver(body io.ReadCloser) core.Stream {
 	return &StreamReceiver{
 		reader: bufio.NewReader(body),
 		body:   body,

@@ -9,12 +9,12 @@ import (
 
 // StreamExecutor 流式执行器
 type StreamExecutor struct {
-	handler StreamHandler
+	handler Handler
 	hooks   []Hook
 }
 
 // NewStreamExecutor 创建流式执行器
-func NewStreamExecutor(h StreamHandler, hooks ...Hook) *StreamExecutor {
+func NewStreamExecutor(h Handler, hooks ...Hook) *StreamExecutor {
 	return &StreamExecutor{
 		handler: h,
 		hooks:   hooks,

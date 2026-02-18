@@ -35,7 +35,7 @@ func (e *SyncExecution) Execute(ctx context.Context, c *core.Context) error {
 
 // StreamExecution 流式执行
 type StreamExecution struct {
-	Handler core.StreamHandler
+	Handler core.Handler
 	Hooks   []core.Hook
 }
 

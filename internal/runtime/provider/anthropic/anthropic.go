@@ -20,7 +20,7 @@ func Init(i do.Injector) {
 			Retry: 3,
 		},
 		Stream: &provider.StreamExecution{
-			Handler: NewStreamHandler(core.ProviderCodeAnthropic),
+			Handler: NewHandler(core.ProviderCodeAnthropic),
 			Hooks: []core.Hook{
 				do.MustInvoke[*hooks.RequestHook](i),
 				do.MustInvoke[*hooks.StreamWriteHook](i),

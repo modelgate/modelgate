@@ -30,7 +30,7 @@ func Init(i do.Injector) {
 			Retry:   3,
 		},
 		Stream: &provider.StreamExecution{
-			Handler: NewStreamHandler(core.ProviderCodeOpenAI),
+			Handler: NewHandler(core.ProviderCodeOpenAI),
 			Hooks:   streamHooks,
 		},
 	})
@@ -43,7 +43,7 @@ func Init(i do.Injector) {
 			Retry:   3,
 		},
 		Stream: &provider.StreamExecution{
-			Handler: NewStreamHandler(core.ProviderCodeDeepSeek),
+			Handler: NewHandler(core.ProviderCodeDeepSeek),
 			Hooks:   streamHooks,
 		},
 	})

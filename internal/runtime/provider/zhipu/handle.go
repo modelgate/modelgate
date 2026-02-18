@@ -108,3 +108,8 @@ func (h *Handler) DoRequest(ctx context.Context, c *core.Context) (err error) {
 func (h *Handler) AfterResponse(ctx context.Context, c *core.Context) error {
 	return h.base.AfterResponse(ctx, c)
 }
+
+// DoStream 发送流式请求
+func (h *Handler) DoStream(ctx context.Context, c *core.Context) (stream core.Stream, err error) {
+	return h.base.DoStream(ctx, c)
+}

@@ -118,3 +118,20 @@ func (h *Handler) AfterResponse(ctx context.Context, c *core.Context) (err error
 	}
 	return
 }
+
+// DoStream 发送流式请求
+func (h *Handler) DoStream(ctx context.Context, c *core.Context) (stream core.Stream, err error) {
+	resp, err := http.DefaultClient.Do(c.HTTPRequest)
+	if err != nil {
+		return
+	}
+
+	if resp.StatusCode != http.StatusOK {
+		defer resp.Body.Close()
+		b, _ := io.ReadAll(resp.Body)
+		return nil, fmt.Errorf("openai stream error: %s", b)
+	}
+
+	c.HTTPResponse = resp
+	return NewStreamReceiver(resp.Body), nil
+}
