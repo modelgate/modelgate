@@ -8,27 +8,22 @@ import (
 )
 
 type streamExecutor struct {
+	*baseExecutor
 	handler Handler
-	hooks   []Hook
 }
 
 // NewStreamExecutor 创建流式执行器
 func NewStreamExecutor(h Handler, hooks ...Hook) Executor {
 	return &streamExecutor{
-		handler: h,
-		hooks:   hooks,
+		baseExecutor: newBaseExecutor(hooks),
+		handler:      h,
 	}
 }
 
 // Execute 执行流式处理
 func (e *streamExecutor) Execute(ctx context.Context, c *Context) error {
 	// hooks before
-	for _, h := range e.hooks {
-		log.Debugf("hook: %s, before...", h.Name())
-		if hErr := h.Before(ctx, c); hErr != nil {
-			log.Errorf("hook %s before error: %v", h.Name(), hErr)
-		}
-	}
+	e.callHooksBefore(ctx, c)
 
 	// before request
 	log.Debugf("provider %s, model: %s, before request...", e.handler.Provider(), c.CurrentModel.ModelCode)
@@ -67,12 +62,7 @@ func (e *streamExecutor) Execute(ctx context.Context, c *Context) error {
 	}
 
 	// hooks after（反向）
-	for i := len(e.hooks) - 1; i >= 0; i-- {
-		log.Debugf("after hook %s ...", e.hooks[i].Name())
-		if hErr := e.hooks[i].After(ctx, c); hErr != nil {
-			log.Errorf("hook %s after error: %v", e.hooks[i].Name(), hErr)
-		}
-	}
+	e.callHooksAfter(ctx, c)
 	return nil
 }
 

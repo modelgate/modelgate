@@ -11,26 +11,21 @@ type Executor interface {
 }
 
 type executor struct {
+	*baseExecutor
 	handler Handler
-	hooks   []Hook
 }
 
 func NewExecutor(h Handler, hooks ...Hook) Executor {
 	return &executor{
-		handler: h,
-		hooks:   hooks,
+		baseExecutor: newBaseExecutor(hooks),
+		handler:      h,
 	}
 }
 
 // Execute 执行
 func (e *executor) Execute(ctx context.Context, c *Context) (err error) {
 	// hooks before
-	for _, h := range e.hooks {
-		log.Debugf("hook %s before request...", h.Name())
-		if hErr := h.Before(ctx, c); hErr != nil {
-			log.Errorf("hook %s before error: %v", h.Name(), hErr)
-		}
-	}
+	e.callHooksBefore(ctx, c)
 
 	// execute
 	err = e.execute(ctx, c)
@@ -39,12 +34,7 @@ func (e *executor) Execute(ctx context.Context, c *Context) (err error) {
 	}
 
 	// hooks after（反向）
-	for i := len(e.hooks) - 1; i >= 0; i-- {
-		log.Debugf("hook %s after request...", e.hooks[i].Name())
-		if hErr := e.hooks[i].After(ctx, c); hErr != nil {
-			log.Errorf("hook %s after error: %v", e.hooks[i].Name(), hErr)
-		}
-	}
+	e.callHooksAfter(ctx, c)
 	return
 }
 
@@ -70,6 +60,34 @@ func (e *executor) execute(ctx context.Context, c *Context) (err error) {
 		return
 	}
 	return
+}
+
+type baseExecutor struct {
+	hooks []Hook
+}
+
+func (e *baseExecutor) callHooksBefore(ctx context.Context, c *Context) {
+	for _, h := range e.hooks {
+		log.Debugf("hook %s before request...", h.Name())
+		if hErr := h.Before(ctx, c); hErr != nil {
+			log.Errorf("hook %s before error: %v", h.Name(), hErr)
+		}
+	}
+}
+
+func (e *baseExecutor) callHooksAfter(ctx context.Context, c *Context) {
+	for i := len(e.hooks) - 1; i >= 0; i-- {
+		log.Debugf("hook %s after request...", e.hooks[i].Name())
+		if hErr := e.hooks[i].After(ctx, c); hErr != nil {
+			log.Errorf("hook %s after error: %v", e.hooks[i].Name(), hErr)
+		}
+	}
+}
+
+func newBaseExecutor(hooks []Hook) *baseExecutor {
+	return &baseExecutor{
+		hooks: hooks,
+	}
 }
 
 type retryExecutor struct {

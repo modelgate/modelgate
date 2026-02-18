@@ -84,7 +84,7 @@ func (h *AnthropicHandler) BeforeRequest(ctx context.Context, c *core.Context) (
 }
 
 func (h *AnthropicHandler) DoRequest(ctx context.Context, c *core.Context) (err error) {
-	resp, err := http.DefaultClient.Do(c.HTTPRequest)
+	resp, err := core.HttpClient.Do(c.HTTPRequest)
 	if err != nil {
 		return
 	}

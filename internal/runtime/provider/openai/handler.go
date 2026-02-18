@@ -54,7 +54,7 @@ func (h *Handler) BeforeRequest(ctx context.Context, c *core.Context) (err error
 
 // DoRequest 发送请求，并处理结果
 func (h *Handler) DoRequest(ctx context.Context, c *core.Context) (err error) {
-	resp, err := http.DefaultClient.Do(c.HTTPRequest)
+	resp, err := core.HttpClient.Do(c.HTTPRequest)
 	if err != nil {
 		return
 	}
@@ -121,7 +121,7 @@ func (h *Handler) AfterResponse(ctx context.Context, c *core.Context) (err error
 
 // DoStream 发送流式请求
 func (h *Handler) DoStream(ctx context.Context, c *core.Context) (stream core.Stream, err error) {
-	resp, err := http.DefaultClient.Do(c.HTTPRequest)
+	resp, err := core.HttpClient.Do(c.HTTPRequest)
 	if err != nil {
 		return
 	}
