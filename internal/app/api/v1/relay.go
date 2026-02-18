@@ -72,15 +72,15 @@ func (s *RelayService) run(c *gin.Context, relayProvider, relayPath string) (err
 		TokenNum:          currentModel.TokenNum,
 		PointsPerCurrency: currentModel.PointsPerCurrency,
 	}
-	rCtx := &core.Context{
-		RequestUUID:     utils.NewUUIDv7(),
-		CurrentModel:    cModel,
-		AccountApiKeyId: common.GetApiKeyId(c),
-		AccountId:       common.GetAccountId(c),
-		UrlPath:         lo.Ternary(relayPath != "", relayPath, c.Request.URL.Path),
-		InputBody:       inputData,
-		Header:          c.Request.Header,
-	}
+	rCtx := core.Get()
+	defer core.Put(rCtx)
+	rCtx.RequestUUID = utils.NewUUIDv7()
+	rCtx.CurrentModel = cModel
+	rCtx.AccountApiKeyId = common.GetApiKeyId(c)
+	rCtx.AccountId = common.GetAccountId(c)
+	rCtx.UrlPath = lo.Ternary(relayPath != "", relayPath, c.Request.URL.Path)
+	rCtx.InputBody = inputData
+	rCtx.Header = c.Request.Header
 	if stream {
 		rCtx.IsStream = true
 		rCtx.StreamWriter = newGinSSEWriter(c)
