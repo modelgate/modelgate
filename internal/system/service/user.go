@@ -117,12 +117,12 @@ func (s *Service) GetUserList(ctx context.Context, req *model.GetUserListRequest
 		if err != nil {
 			return
 		}
-		if !db.HasRecrods(total, req.PageParam.Page, req.PageParam.PageSize) {
+		if !db.HasRecrods(total, req.Page, req.PageSize) {
 			return
 		}
 		options = append(options,
-			db.WithPaging(req.PageParam.Page, req.PageParam.PageSize),
-			db.WithOrder(req.PageParam.OrderBy, nil))
+			db.WithPaging(req.Page, req.PageSize),
+			db.WithOrder(req.OrderBy, nil))
 	}
 	list, err = s.userDao.Find(ctx, filter, options...)
 	return

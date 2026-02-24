@@ -1,18 +1,21 @@
 appname: "modelgate"
-run_cmd: "./modelgate"
+run_cmd: "./bin/modelgate"
 cmd_args:
    - "all"
    - "--app_path=./"
+output: ./bin/modelgate
 watch_exts:
    - .go
    - .toml
    - .env
 vendor_watch: false
 excluded_paths:
+   - bin
+   - tmp
    - proto
    - web
-   - tmp
 build_pkg: "cmd/main.go"
+build_dir: "bin"
 build_tags: ""
 disable_run: false
 log_level: "debug"

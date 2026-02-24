@@ -12,7 +12,7 @@
             "program": "cmd/main.go",
             "args": [
                 "all",
-                "--config=../configs/config.toml"
+                "--app_path=${workspaceFolder}"
             ]
         }
     ]

@@ -90,12 +90,12 @@ func (s *Service) GetProviderList(ctx context.Context, req *model.GetProviderLis
 		if err != nil {
 			return
 		}
-		if !db.HasRecrods(total, req.PageParam.Page, req.PageParam.PageSize) {
+		if !db.HasRecrods(total, req.Page, req.PageSize) {
 			return
 		}
 		options = append(options,
-			db.WithPaging(req.PageParam.Page, req.PageParam.PageSize),
-			db.WithOrder(req.PageParam.OrderBy, nil))
+			db.WithPaging(req.Page, req.PageSize),
+			db.WithOrder(req.OrderBy, nil))
 	}
 	list, err = s.providerDao.Find(ctx, f, options...)
 	return
