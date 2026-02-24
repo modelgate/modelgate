@@ -6,6 +6,7 @@ const (
 	ProviderCodeOpenAI    string = "openai"    // OpenAI
 	ProviderCodeZhipu     string = "zhipu"     // 智谱 - bigmodel
 	ProviderCodeMinimax   string = "minimax"   // MiniMax
+	ProviderCodeMoonshot  string = "moonshot"  // 月之暗面
 )
 
 var AllProviderCodeList = []string{
@@ -14,6 +15,7 @@ var AllProviderCodeList = []string{
 	ProviderCodeOpenAI,
 	ProviderCodeZhipu,
 	ProviderCodeMinimax,
+	ProviderCodeMoonshot,
 }
 
 // Model 模型
