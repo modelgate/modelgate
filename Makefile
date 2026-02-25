@@ -35,12 +35,7 @@ build-darwin:
 # Run the application
 .PHONY: run
 run:
-	$(GO) run ./cmd/main.go
-
-# Run with custom config
-.PHONY: run-config
-run-config:
-	$(GO) run ./cmd/main.go -config $(CONFIG)
+	$(GO) run ./cmd/main.go all
 
 # Clean build artifacts
 .PHONY: clean
@@ -122,7 +117,7 @@ docker-build-latest:
 # Docker: run container
 .PHONY: docker-run
 docker-run:
-	docker run -p 8080:8080 $(DOCKER_IMAGE):$(DOCKER_TAG)
+	docker run -p 8080:8080 -p 8088:8088 $(DOCKER_IMAGE):$(DOCKER_TAG)
 
 # Docker: push image
 .PHONY: docker-push
