@@ -483,7 +483,6 @@ declare namespace App {
         };
         about: {
           title: string;
-          introduction: string;
           projectInfo: {
             title: string;
             version: string;
@@ -495,26 +494,18 @@ declare namespace App {
           devDep: string;
         };
         home: {
-          branchDesc: string;
           greeting: string;
           weatherDesc: string;
           providerCount: string;
           modelCount: string;
           apiKeyCount: string;
-          downloadCount: string;
+          requestCount: string;
+          pointAmount: string;
+          requestVolume: string;
+          pointVolume: string;
           today: string;
           last7Days: string;
           last30Days: string;
-          requestVolume: string;
-          pointVolume: string;
-          registerCount: string;
-          schedule: string;
-          study: string;
-          work: string;
-          rest: string;
-          entertainment: string;
-          requestCount: string;
-          pointAmount: string;
           chartTab: {
             request: string;
             point: string;
@@ -524,7 +515,6 @@ declare namespace App {
             moreNews: string;
             desc1: string;
           };
-          creativity: string;
         };
         function: {
           tab: {
@@ -546,37 +536,6 @@ declare namespace App {
               resetTitle: string;
               reset: string;
             };
-          };
-          multiTab: {
-            routeParam: string;
-            backTab: string;
-          };
-          toggleAuth: {
-            toggleAccount: string;
-            authHook: string;
-            superAdminVisible: string;
-            adminVisible: string;
-            adminOrUserVisible: string;
-          };
-          request: {
-            repeatedErrorOccurOnce: string;
-            repeatedError: string;
-            repeatedErrorMsg1: string;
-            repeatedErrorMsg2: string;
-          };
-        };
-        alova: {
-          scenes: {
-            captchaSend: string;
-            autoRequest: string;
-            visibilityRequestTips: string;
-            pollingRequestTips: string;
-            networkRequestTips: string;
-            refreshTime: string;
-            startRequest: string;
-            stopRequest: string;
-            requestCrossComponent: string;
-            triggerAllRequest: string;
           };
         };
         manage: {

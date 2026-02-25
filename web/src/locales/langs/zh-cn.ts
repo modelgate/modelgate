@@ -312,7 +312,6 @@ const local: App.I18n.Schema = {
     },
     about: {
       title: '关于',
-      introduction: `SoybeanAdmin 是一个优雅且功能强大的后台管理模板，基于最新的前端技术栈，包括 Vue3, Vite5, TypeScript, Pinia 和 UnoCSS。它内置了丰富的主题配置和组件，代码规范严谨，实现了自动化的文件路由系统。此外，它还采用了基于 ApiFox 的在线Mock数据方案。SoybeanAdmin 为您提供了一站式的后台管理解决方案，无需额外配置，开箱即用。同样是一个快速学习前沿技术的最佳实践。`,
       projectInfo: {
         title: '项目信息',
         version: '版本',
@@ -324,29 +323,18 @@ const local: App.I18n.Schema = {
       devDep: '开发依赖'
     },
     home: {
-      branchDesc:
-        '为了方便大家开发和更新合并，我们对main分支的代码进行了精简，只保留了首页菜单，其余内容已移至example分支进行维护。预览地址显示的内容即为example分支的内容。',
       greeting: '早安，{userName}，今天又是充满活力的一天!',
       weatherDesc: '今日多云转晴，20℃ - 25℃!',
       providerCount: '厂商数',
       modelCount: '模型数',
       apiKeyCount: 'APIKey数',
-      downloadCount: '下载量',
-      registerCount: '注册量',
-      schedule: '作息安排',
-      study: '学习',
-      work: '工作',
-      rest: '休息',
-      entertainment: '娱乐',
       requestCount: '总请求量',
       pointAmount: '总消费点数',
       requestVolume: '请求量',
       pointVolume: '点数',
-      timeRange: '时间范围',
       today: '当天',
       last7Days: '最近 7 天',
       last30Days: '最近 30 天',
-      custom: '自定义',
       chartTab: {
         request: '请求量',
         point: '消费点数'
@@ -355,8 +343,7 @@ const local: App.I18n.Schema = {
         title: '项目动态',
         moreNews: '更多动态',
         desc1: '刚才把工作台页面随便写了一些，凑合能看了！'
-      },
-      creativity: '创意'
+      }
     },
     function: {
       tab: {
@@ -378,37 +365,6 @@ const local: App.I18n.Schema = {
           resetTitle: '重置标题',
           reset: '重置'
         }
-      },
-      multiTab: {
-        routeParam: '路由参数',
-        backTab: '返回 function_tab'
-      },
-      toggleAuth: {
-        toggleAccount: '切换账号',
-        authHook: '权限钩子函数 `hasAuth`',
-        superAdminVisible: '超级管理员可见',
-        adminVisible: '管理员可见',
-        adminOrUserVisible: '管理员和用户可见'
-      },
-      request: {
-        repeatedErrorOccurOnce: '重复请求错误只出现一次',
-        repeatedError: '重复请求错误',
-        repeatedErrorMsg1: '自定义请求错误 1',
-        repeatedErrorMsg2: '自定义请求错误 2'
-      }
-    },
-    alova: {
-      scenes: {
-        captchaSend: '发送验证码',
-        autoRequest: '自动请求',
-        visibilityRequestTips: '浏览器窗口切换自动请求数据',
-        pollingRequestTips: '每3秒自动请求一次',
-        networkRequestTips: '网络重连后自动请求',
-        refreshTime: '更新时间',
-        startRequest: '开始请求',
-        stopRequest: '停止请求',
-        requestCrossComponent: '跨组件触发请求',
-        triggerAllRequest: '手动触发所有自动请求'
       }
     },
     manage: {
@@ -586,13 +542,6 @@ const local: App.I18n.Schema = {
             deprecated: '弃用'
           }
         },
-        userApiKey: {
-          status: {
-            active: '激活',
-            disable: '禁用',
-            revoked: '已撤销'
-          }
-        }
       },
       provider: {
         addProvider: '新增厂商',

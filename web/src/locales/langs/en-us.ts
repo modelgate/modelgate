@@ -213,6 +213,8 @@ const local: App.I18n.Schema = {
     'manage_user-detail': 'User Detail',
     manage_role: 'Role Manage',
     manage_menu: 'Menu Manage',
+    'manage_api-permission': 'API Permission',
+    manage_permission: 'Permission Manage',
     'multi-menu': 'Multi Menu',
     'multi-menu_first': 'Menu One',
     'multi-menu_first_child': 'Menu One Child',
@@ -309,7 +311,6 @@ const local: App.I18n.Schema = {
     },
     about: {
       title: 'About',
-      introduction: `SoybeanAdmin is an elegant and powerful admin template, based on the latest front-end technology stack, including Vue3, Vite5, TypeScript, Pinia and UnoCSS. It has built-in rich theme configuration and components, strict code specifications, and an automated file routing system. In addition, it also uses the online mock data solution based on ApiFox. SoybeanAdmin provides you with a one-stop admin solution, no additional configuration, and out of the box. It is also a best practice for learning cutting-edge technologies quickly.`,
       projectInfo: {
         title: 'Project Info',
         version: 'Version',
@@ -321,29 +322,18 @@ const local: App.I18n.Schema = {
       devDep: 'Development Dependency'
     },
     home: {
-      branchDesc:
-        'For the convenience of everyone in developing and updating the merge, we have streamlined the code of the main branch, only retaining the homepage menu, and the rest of the content has been moved to the example branch for maintenance. The preview address displays the content of the example branch.',
       greeting: 'Good morning, {userName}, today is another day full of vitality!',
       weatherDesc: 'Today is cloudy to clear, 20℃ - 25℃!',
       providerCount: 'Provider Count',
       modelCount: 'Model Count',
       apiKeyCount: 'Provider API Key Count',
-      downloadCount: 'Download Count',
-      registerCount: 'Register Count',
-      schedule: 'Work and rest Schedule',
-      study: 'Study',
-      work: 'Work',
-      rest: 'Rest',
-      entertainment: 'Entertainment',
       requestCount: 'Request Count',
       pointAmount: 'Point Amount',
       requestVolume: 'Request Volume',
       pointVolume: 'Point Volume',
-      timeRange: 'Time Range',
       today: 'Today',
       last7Days: 'Last 7 Days',
       last30Days: 'Last 30 Days',
-      custom: 'Custom',
       chartTab: {
         request: 'Request',
         point: 'Point'
@@ -352,8 +342,7 @@ const local: App.I18n.Schema = {
         title: 'Project News',
         moreNews: 'More News',
         desc1: 'just wrote some of the workbench pages casually, and it was enough to see!'
-      },
-      creativity: 'Creativity'
+      }
     },
     function: {
       tab: {
@@ -375,37 +364,6 @@ const local: App.I18n.Schema = {
           resetTitle: 'Reset Title',
           reset: 'Reset'
         }
-      },
-      multiTab: {
-        routeParam: 'Route Param',
-        backTab: 'Back function_tab'
-      },
-      toggleAuth: {
-        toggleAccount: 'Toggle Account',
-        authHook: 'Auth Hook Function `hasAuth`',
-        superAdminVisible: 'Super Admin Visible',
-        adminVisible: 'Admin Visible',
-        adminOrUserVisible: 'Admin and User Visible'
-      },
-      request: {
-        repeatedErrorOccurOnce: 'Repeated Request Error Occurs Once',
-        repeatedError: 'Repeated Request Error',
-        repeatedErrorMsg1: 'Custom Request Error 1',
-        repeatedErrorMsg2: 'Custom Request Error 2'
-      }
-    },
-    alova: {
-      scenes: {
-        captchaSend: 'Captcha Send',
-        autoRequest: 'Auto Request',
-        visibilityRequestTips: 'Automatically request when switching browser window',
-        pollingRequestTips: 'It will request every 3 seconds',
-        networkRequestTips: 'Automatically request after network reconnecting',
-        refreshTime: 'Refresh Time',
-        startRequest: 'Start Request',
-        stopRequest: 'Stop Request',
-        requestCrossComponent: 'Request Cross Component',
-        triggerAllRequest: 'Manually Trigger All Automated Requests'
       }
     },
     manage: {
