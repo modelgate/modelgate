@@ -1,6 +1,6 @@
 services:
   modelgate:
-    image: modelgate:latest
+    image: modelgate/modelgate:latest
     container_name: modelgate
     restart: always
     ports:
