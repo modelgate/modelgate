@@ -2,7 +2,30 @@
 # Multi-stage build for minimal image size with Web UI included
 
 # =============================================================================
-# Stage 1: Build Web UI
+# Stage 1: Generate Proto
+# =============================================================================
+FROM golang:1.26-alpine AS proto-generator
+
+# Install dependencies
+RUN apk add --no-cache git curl nodejs npm
+
+# Install tools
+RUN go install github.com/bufbuild/buf/cmd/buf@v1.66.0 && \ 
+  go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.11 && \
+  go install connectrpc.com/connect/cmd/protoc-gen-connect-go@v1.19.1 && \
+  npm install -g @bufbuild/protoc-gen-es@2.11.0
+
+WORKDIR /build
+
+# Copy proto config and source
+COPY buf.yaml buf.gen.yaml ./
+COPY proto ./proto
+
+# Generate proto code
+RUN buf dep update && buf generate .
+
+# =============================================================================
+# Stage 2: Build Web UI
 # =============================================================================
 FROM node:20-alpine AS web-builder
 
@@ -20,6 +43,9 @@ COPY web/packages ./packages
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
+# Copy proto generated types
+COPY --from=proto-generator /build/web/src/typings/proto ./src/typings/proto
+
 # Copy web source code
 COPY web/ .
 
@@ -27,9 +53,9 @@ COPY web/ .
 RUN pnpm run build
 
 # =============================================================================
-# Stage 2: Build Backend
+# Stage 3: Build Backend
 # =============================================================================
-FROM golang:1.25.5-alpine AS go-builder
+FROM golang:1.26-alpine AS go-builder
 
 ARG GIT_VERSION
 ARG GIT_COMMIT
@@ -38,17 +64,14 @@ ARG BUILD_TIME
 # Install build dependencies
 RUN apk add --no-cache git make
 
-# Install buf
-RUN apk add --no-cache curl \
-  && curl -sSL -o /usr/local/bin/buf https://github.com/bufbuild/buf/releases/download/v1.63.0/buf-Linux-x86_64 \
-  && chmod +x /usr/local/bin/buf
-
-# Set working directory
 WORKDIR /build
 
 # Copy go mod files
 COPY go.mod go.sum ./
 RUN go mod download
+
+# Copy proto generated Go code
+COPY --from=proto-generator /build/pkg/proto ./pkg/proto
 
 # Copy source code
 COPY . .
@@ -60,7 +83,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a \
   -o modelgate ./cmd/main.go
 
 # =============================================================================
-# Stage 3: Runtime
+# Stage 4: Runtime
 # =============================================================================
 FROM alpine:latest
 

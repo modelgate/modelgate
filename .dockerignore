@@ -40,6 +40,10 @@ docker-compose.yaml
 configs/.env
 !configs/config.toml
 
+# Proto
+pkg/proto
+web/src/typings/proto
+
 # Temp files
 *.tmp
 *.temp
