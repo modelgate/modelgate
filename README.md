@@ -45,7 +45,7 @@ ModelGate 采用前后端分离架构，由以下两部分组成：
 
 | 技术 | 说明 |
 |------|------|
-| Go 1.25.5 | 开发语言 |
+| Go 1.26 | 开发语言 |
 | Gin | REST API 框架 |
 | Connect RPC | gRPC-Web 框架 |
 | GORM | 数据库 ORM |
