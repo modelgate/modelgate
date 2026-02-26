@@ -1,0 +1,118 @@
+name: Release - Build and Push Docker Image to Docker Hub
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: modelgate/modelgate
+
+jobs:
+  build-amd64:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract version
+        id: vars
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+        
+      - name: Build and push amd64 image
+        run: |
+          docker build \
+            --platform linux/amd64 \
+            -t $IMAGE_NAME:${{ steps.vars.outputs.version }}-amd64 \
+            .
+
+          docker push $IMAGE_NAME:${{ steps.vars.outputs.version }}-amd64
+
+  build-arm64:
+    runs-on: ubuntu-24.04-arm  
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract version
+        id: vars
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push arm64 image
+        run: |
+          docker build \
+            --platform linux/arm64 \
+            -t $IMAGE_NAME:${{ steps.vars.outputs.version }}-arm64 \
+            .
+
+          docker push $IMAGE_NAME:${{ steps.vars.outputs.version }}-arm64
+
+  manifest:
+    runs-on: ubuntu-latest
+    needs: [build-amd64, build-arm64]
+
+    steps:
+      - uses: docker/login-action@v3
+        with:
+          registry: docker.io
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Extract version
+        id: vars
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+          MAJOR=$(echo $VERSION | cut -d. -f1)
+          MINOR=$(echo $VERSION | cut -d. -f1-2)
+
+          echo "major=$MAJOR" >> "$GITHUB_OUTPUT"
+          echo "minor=$MINOR" >> "$GITHUB_OUTPUT"
+
+      - name: Create and push manifest
+        run: |
+          VERSION=${{ steps.vars.outputs.version }}
+          MAJOR=${{ steps.vars.outputs.major }}
+          MINOR=${{ steps.vars.outputs.minor }}
+
+          # version
+          docker manifest create $IMAGE_NAME:$VERSION \
+            --amend $IMAGE_NAME:$VERSION-amd64 \
+            --amend $IMAGE_NAME:$VERSION-arm64
+          docker manifest push $IMAGE_NAME:$VERSION
+
+          # minor
+          docker manifest create $IMAGE_NAME:$MINOR \
+            --amend $IMAGE_NAME:$VERSION-amd64 \
+            --amend $IMAGE_NAME:$VERSION-arm64
+          docker manifest push $IMAGE_NAME:$MINOR
+
+          # major
+          docker manifest create $IMAGE_NAME:$MAJOR \
+            --amend $IMAGE_NAME:$VERSION-amd64 \
+            --amend $IMAGE_NAME:$VERSION-arm64
+          docker manifest push $IMAGE_NAME:$MAJOR
+
+          # latest
+          docker manifest create $IMAGE_NAME:latest \
+            --amend $IMAGE_NAME:$VERSION-amd64 \
+            --amend $IMAGE_NAME:$VERSION-arm64
+          docker manifest push $IMAGE_NAME:latest
