@@ -38,3 +38,7 @@ __debug_bin*
 
 deployments/mysql8
 deployments/redis
+
+# Generated proto code
+pkg/proto/
+web/src/typings/proto/
