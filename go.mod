@@ -1,6 +1,6 @@
 module github.com/modelgate/modelgate
 
-go 1.25.5
+go 1.26
 
 require (
 	connectrpc.com/authn v0.2.0

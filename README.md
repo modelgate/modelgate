@@ -78,7 +78,7 @@ ModelGate 采用前后端分离架构，由以下两部分组成：
 ### 环境要求
 
 **后端:**
-- Go 1.25.5+
+- Go 1.26+
 - MySQL 5.7+
 - Redis 6.0+
 - (可选) Docker
@@ -99,8 +99,11 @@ cd modelgate
 # 安装 Go 依赖
 go mod download
 
-# 安装 buf (用于 Protobuf 代码生成)
-go install github.com/bufbuild/buf/cmd/buf@latest
+# 安装工具
+go install github.com/bufbuild/buf/cmd/buf@v1.66.0
+go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.11
+go install connectrpc.com/connect/cmd/protoc-gen-connect-go@v1.19.1
+npm install -g @bufbuild/protoc-gen-es@2.11.0
 
 # 生成 Protobuf 代码
 buf generate
