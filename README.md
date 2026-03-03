@@ -36,7 +36,7 @@ ModelGate 采用前后端分离架构，由以下两部分组成：
 
 ### 项目截图
 
-![项目截图](./assets/screenshot_001.png)
+![项目截图](./assets/screenshot_001.webp)
 ---
 
 ## 技术栈
@@ -321,6 +321,12 @@ go run cmd/main.go migrate
 MIT License - 详见 [LICENSE](LICENSE) 文件
 
 ---
+
+## 微信群
+
+<p align="center">
+  <img src="./assets/wechat.webp" width="250">
+</p>
 
 ## 贡献
 
