@@ -1,6 +1,7 @@
 package core
 
 const (
+	ProviderCodeAli       string = "ali"       // 阿里云百炼
 	ProviderCodeAnthropic string = "anthropic" // Anthropic
 	ProviderCodeDeepSeek  string = "deepseek"  // DeepSeek
 	ProviderCodeOpenAI    string = "openai"    // OpenAI
@@ -9,6 +10,7 @@ const (
 )
 
 var AllProviderCodeList = []string{
+	ProviderCodeAli,
 	ProviderCodeAnthropic,
 	ProviderCodeDeepSeek,
 	ProviderCodeOpenAI,
