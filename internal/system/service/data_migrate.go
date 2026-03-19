@@ -16,9 +16,6 @@ import (
 )
 
 func (s *Service) DataMigrate(ctx context.Context) (err error) {
-	if err = s.dataMigrationDao.AutoMigrate(); err != nil {
-		return
-	}
 	migrations, err := s.dataMigrationDao.Find(ctx, &model.DataMigrationFilter{})
 	if err != nil {
 		return

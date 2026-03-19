@@ -36,7 +36,8 @@ func (d *AccountDao) DeductBalance(ctx context.Context, accountId int64, amount 
 		err = errors.New("invalid ledger type")
 		return
 	}
-	err = d.GetDB().Transaction(func(tx *gorm.DB) (tErr error) {
+
+	err = d.Transaction(ctx, func(tx *gorm.DB) (tErr error) {
 		res := tx.Model(&model.Account{}).Where("id = ? and balance >= ?", accountId, amount).Update("balance", gorm.Expr("balance - ?", amount))
 		if res.Error != nil {
 			return
@@ -79,7 +80,8 @@ func (d *AccountDao) IncreaseBalance(ctx context.Context, accountId int64, amoun
 		err = errors.New("invalid ledger type")
 		return
 	}
-	err = d.GetDB().Transaction(func(tx *gorm.DB) (tErr error) {
+
+	err = d.Transaction(ctx, func(tx *gorm.DB) (tErr error) {
 		tErr = tx.Model(&model.Account{}).Where("id = ?", accountId).Update("balance", gorm.Expr("balance + ?", amount)).Error
 		if tErr != nil {
 			return

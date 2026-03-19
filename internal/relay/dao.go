@@ -9,8 +9,8 @@ import (
 )
 
 type RequestDAO interface {
-	Create(ctx context.Context, m *model.Request) error
-	Save(ctx context.Context, m *model.Request) error
+	Create(ctx context.Context, m *model.Request, opts ...db.Option) error
+	Save(ctx context.Context, m *model.Request, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.RequestFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.Request, update map[string]any) error
 	Count(ctx context.Context, f *model.RequestFilter) (total int64, err error)
@@ -21,8 +21,8 @@ type RequestDAO interface {
 }
 
 type RequestAttemptDAO interface {
-	Create(ctx context.Context, m *model.RequestAttempt) error
-	Save(ctx context.Context, m *model.RequestAttempt) error
+	Create(ctx context.Context, m *model.RequestAttempt, opts ...db.Option) error
+	Save(ctx context.Context, m *model.RequestAttempt, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.RequestAttemptFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.RequestAttempt, update map[string]any) error
 	Count(ctx context.Context, f *model.RequestAttemptFilter) (total int64, err error)
@@ -33,8 +33,8 @@ type RequestAttemptDAO interface {
 }
 
 type ProviderDAO interface {
-	Create(ctx context.Context, m *model.Provider) error
-	Save(ctx context.Context, m *model.Provider) error
+	Create(ctx context.Context, m *model.Provider, opts ...db.Option) error
+	Save(ctx context.Context, m *model.Provider, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.ProviderFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.Provider, update map[string]any) error
 	Count(ctx context.Context, f *model.ProviderFilter) (total int64, err error)
@@ -45,8 +45,8 @@ type ProviderDAO interface {
 }
 
 type ProviderApiKeyDAO interface {
-	Create(ctx context.Context, m *model.ProviderApiKey) error
-	Save(ctx context.Context, m *model.ProviderApiKey) error
+	Create(ctx context.Context, m *model.ProviderApiKey, opts ...db.Option) error
+	Save(ctx context.Context, m *model.ProviderApiKey, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.ProviderApiKeyFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.ProviderApiKey, update map[string]any) error
 	Count(ctx context.Context, f *model.ProviderApiKeyFilter) (total int64, err error)
@@ -57,8 +57,8 @@ type ProviderApiKeyDAO interface {
 }
 
 type AccountApiKeyDAO interface {
-	Create(ctx context.Context, m *model.AccountApiKey) error
-	Save(ctx context.Context, m *model.AccountApiKey) error
+	Create(ctx context.Context, m *model.AccountApiKey, opts ...db.Option) error
+	Save(ctx context.Context, m *model.AccountApiKey, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.AccountApiKeyFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.AccountApiKey, update map[string]any) error
 	Count(ctx context.Context, f *model.AccountApiKeyFilter) (total int64, err error)
@@ -69,8 +69,8 @@ type AccountApiKeyDAO interface {
 }
 
 type ModelPricingDAO interface {
-	Create(ctx context.Context, m *model.ModelPricing) error
-	Save(ctx context.Context, m *model.ModelPricing) error
+	Create(ctx context.Context, m *model.ModelPricing, opts ...db.Option) error
+	Save(ctx context.Context, m *model.ModelPricing, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.ModelPricingFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.ModelPricing, update map[string]any) error
 	Count(ctx context.Context, f *model.ModelPricingFilter) (total int64, err error)
@@ -81,8 +81,8 @@ type ModelPricingDAO interface {
 }
 
 type ModelDAO interface {
-	Create(ctx context.Context, m *model.Model) error
-	Save(ctx context.Context, m *model.Model) error
+	Create(ctx context.Context, m *model.Model, opts ...db.Option) error
+	Save(ctx context.Context, m *model.Model, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.ModelFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.Model, update map[string]any) error
 	Count(ctx context.Context, f *model.ModelFilter) (total int64, err error)
@@ -93,8 +93,8 @@ type ModelDAO interface {
 }
 
 type AccountDAO interface {
-	Create(ctx context.Context, m *model.Account) error
-	Save(ctx context.Context, m *model.Account) error
+	Create(ctx context.Context, m *model.Account, opts ...db.Option) error
+	Save(ctx context.Context, m *model.Account, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.AccountFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.Account, update map[string]any) error
 	Count(ctx context.Context, f *model.AccountFilter) (total int64, err error)
@@ -108,8 +108,8 @@ type AccountDAO interface {
 }
 
 type LedgerDAO interface {
-	Create(ctx context.Context, m *model.Ledger) error
-	Save(ctx context.Context, m *model.Ledger) error
+	Create(ctx context.Context, m *model.Ledger, opts ...db.Option) error
+	Save(ctx context.Context, m *model.Ledger, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.LedgerFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.Ledger, update map[string]any) error
 	Count(ctx context.Context, f *model.LedgerFilter) (total int64, err error)
@@ -120,8 +120,8 @@ type LedgerDAO interface {
 }
 
 type RelayUsageDAO interface {
-	Create(ctx context.Context, m *model.RelayUsage) error
-	Save(ctx context.Context, m *model.RelayUsage) error
+	Create(ctx context.Context, m *model.RelayUsage, opts ...db.Option) error
+	Save(ctx context.Context, m *model.RelayUsage, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.RelayUsageFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.RelayUsage, update map[string]any) error
 	Count(ctx context.Context, f *model.RelayUsageFilter) (total int64, err error)
@@ -132,8 +132,8 @@ type RelayUsageDAO interface {
 }
 
 type RelayHourlyUsageDAO interface {
-	Create(ctx context.Context, m *model.RelayHourlyUsage) error
-	Save(ctx context.Context, m *model.RelayHourlyUsage) error
+	Create(ctx context.Context, m *model.RelayHourlyUsage, opts ...db.Option) error
+	Save(ctx context.Context, m *model.RelayHourlyUsage, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.RelayHourlyUsageFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.RelayHourlyUsage, update map[string]any) error
 	Count(ctx context.Context, f *model.RelayHourlyUsageFilter) (total int64, err error)

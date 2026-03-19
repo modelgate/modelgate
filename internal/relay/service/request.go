@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"gorm.io/gorm/clause"
+
 	"github.com/modelgate/modelgate/internal/relay/model"
 	"github.com/modelgate/modelgate/pkg/db"
 )
@@ -21,7 +23,11 @@ func (s *Service) CreateRequest(ctx context.Context, req *model.CreateRequestReq
 		TotalTokens:      0,
 		Status:           model.RequestStatusPending,
 	}
-	err = s.requestDao.Create(ctx, &request)
+	err = s.requestDao.Create(ctx, &request, db.WithClauses(
+		clause.OnConflict{
+			Columns:   []clause.Column{{Name: "request_uuid"}},
+			UpdateAll: true,
+		}))
 	if err != nil {
 		return
 	}

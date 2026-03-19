@@ -58,17 +58,22 @@ func (mr *MockRequestDAOMockRecorder) Count(ctx, f any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockRequestDAO) Create(ctx context.Context, m *model.Request) error {
+func (m_2 *MockRequestDAO) Create(ctx context.Context, m *model.Request, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockRequestDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockRequestDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRequestDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRequestDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -142,17 +147,22 @@ func (mr *MockRequestDAOMockRecorder) FindOneByID(ctx, id any) *gomock.Call {
 }
 
 // Save mocks base method.
-func (m_2 *MockRequestDAO) Save(ctx context.Context, m *model.Request) error {
+func (m_2 *MockRequestDAO) Save(ctx context.Context, m *model.Request, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Save", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Save", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Save indicates an expected call of Save.
-func (mr *MockRequestDAOMockRecorder) Save(ctx, m any) *gomock.Call {
+func (mr *MockRequestDAOMockRecorder) Save(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockRequestDAO)(nil).Save), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockRequestDAO)(nil).Save), varargs...)
 }
 
 // Update mocks base method.
@@ -224,17 +234,22 @@ func (mr *MockRequestAttemptDAOMockRecorder) Count(ctx, f any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockRequestAttemptDAO) Create(ctx context.Context, m *model.RequestAttempt) error {
+func (m_2 *MockRequestAttemptDAO) Create(ctx context.Context, m *model.RequestAttempt, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockRequestAttemptDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockRequestAttemptDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRequestAttemptDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRequestAttemptDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -308,17 +323,22 @@ func (mr *MockRequestAttemptDAOMockRecorder) FindOneByID(ctx, id any) *gomock.Ca
 }
 
 // Save mocks base method.
-func (m_2 *MockRequestAttemptDAO) Save(ctx context.Context, m *model.RequestAttempt) error {
+func (m_2 *MockRequestAttemptDAO) Save(ctx context.Context, m *model.RequestAttempt, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Save", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Save", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Save indicates an expected call of Save.
-func (mr *MockRequestAttemptDAOMockRecorder) Save(ctx, m any) *gomock.Call {
+func (mr *MockRequestAttemptDAOMockRecorder) Save(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockRequestAttemptDAO)(nil).Save), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockRequestAttemptDAO)(nil).Save), varargs...)
 }
 
 // Update mocks base method.
@@ -390,17 +410,22 @@ func (mr *MockProviderDAOMockRecorder) Count(ctx, f any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockProviderDAO) Create(ctx context.Context, m *model.Provider) error {
+func (m_2 *MockProviderDAO) Create(ctx context.Context, m *model.Provider, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockProviderDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockProviderDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockProviderDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockProviderDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -474,17 +499,22 @@ func (mr *MockProviderDAOMockRecorder) FindOneByID(ctx, id any) *gomock.Call {
 }
 
 // Save mocks base method.
-func (m_2 *MockProviderDAO) Save(ctx context.Context, m *model.Provider) error {
+func (m_2 *MockProviderDAO) Save(ctx context.Context, m *model.Provider, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Save", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Save", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Save indicates an expected call of Save.
-func (mr *MockProviderDAOMockRecorder) Save(ctx, m any) *gomock.Call {
+func (mr *MockProviderDAOMockRecorder) Save(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockProviderDAO)(nil).Save), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockProviderDAO)(nil).Save), varargs...)
 }
 
 // Update mocks base method.
@@ -556,17 +586,22 @@ func (mr *MockProviderApiKeyDAOMockRecorder) Count(ctx, f any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockProviderApiKeyDAO) Create(ctx context.Context, m *model.ProviderApiKey) error {
+func (m_2 *MockProviderApiKeyDAO) Create(ctx context.Context, m *model.ProviderApiKey, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockProviderApiKeyDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockProviderApiKeyDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockProviderApiKeyDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockProviderApiKeyDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -640,17 +675,22 @@ func (mr *MockProviderApiKeyDAOMockRecorder) FindOneByID(ctx, id any) *gomock.Ca
 }
 
 // Save mocks base method.
-func (m_2 *MockProviderApiKeyDAO) Save(ctx context.Context, m *model.ProviderApiKey) error {
+func (m_2 *MockProviderApiKeyDAO) Save(ctx context.Context, m *model.ProviderApiKey, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Save", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Save", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Save indicates an expected call of Save.
-func (mr *MockProviderApiKeyDAOMockRecorder) Save(ctx, m any) *gomock.Call {
+func (mr *MockProviderApiKeyDAOMockRecorder) Save(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockProviderApiKeyDAO)(nil).Save), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockProviderApiKeyDAO)(nil).Save), varargs...)
 }
 
 // Update mocks base method.
@@ -722,17 +762,22 @@ func (mr *MockAccountApiKeyDAOMockRecorder) Count(ctx, f any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockAccountApiKeyDAO) Create(ctx context.Context, m *model.AccountApiKey) error {
+func (m_2 *MockAccountApiKeyDAO) Create(ctx context.Context, m *model.AccountApiKey, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockAccountApiKeyDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockAccountApiKeyDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockAccountApiKeyDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockAccountApiKeyDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -806,17 +851,22 @@ func (mr *MockAccountApiKeyDAOMockRecorder) FindOneByID(ctx, id any) *gomock.Cal
 }
 
 // Save mocks base method.
-func (m_2 *MockAccountApiKeyDAO) Save(ctx context.Context, m *model.AccountApiKey) error {
+func (m_2 *MockAccountApiKeyDAO) Save(ctx context.Context, m *model.AccountApiKey, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Save", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Save", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Save indicates an expected call of Save.
-func (mr *MockAccountApiKeyDAOMockRecorder) Save(ctx, m any) *gomock.Call {
+func (mr *MockAccountApiKeyDAOMockRecorder) Save(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockAccountApiKeyDAO)(nil).Save), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockAccountApiKeyDAO)(nil).Save), varargs...)
 }
 
 // Update mocks base method.
@@ -888,17 +938,22 @@ func (mr *MockModelPricingDAOMockRecorder) Count(ctx, f any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockModelPricingDAO) Create(ctx context.Context, m *model.ModelPricing) error {
+func (m_2 *MockModelPricingDAO) Create(ctx context.Context, m *model.ModelPricing, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockModelPricingDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockModelPricingDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockModelPricingDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockModelPricingDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -972,17 +1027,22 @@ func (mr *MockModelPricingDAOMockRecorder) FindOneByID(ctx, id any) *gomock.Call
 }
 
 // Save mocks base method.
-func (m_2 *MockModelPricingDAO) Save(ctx context.Context, m *model.ModelPricing) error {
+func (m_2 *MockModelPricingDAO) Save(ctx context.Context, m *model.ModelPricing, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Save", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Save", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Save indicates an expected call of Save.
-func (mr *MockModelPricingDAOMockRecorder) Save(ctx, m any) *gomock.Call {
+func (mr *MockModelPricingDAOMockRecorder) Save(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockModelPricingDAO)(nil).Save), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockModelPricingDAO)(nil).Save), varargs...)
 }
 
 // Update mocks base method.
@@ -1054,17 +1114,22 @@ func (mr *MockModelDAOMockRecorder) Count(ctx, f any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockModelDAO) Create(ctx context.Context, m *model.Model) error {
+func (m_2 *MockModelDAO) Create(ctx context.Context, m *model.Model, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockModelDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockModelDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockModelDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockModelDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -1138,17 +1203,22 @@ func (mr *MockModelDAOMockRecorder) FindOneByID(ctx, id any) *gomock.Call {
 }
 
 // Save mocks base method.
-func (m_2 *MockModelDAO) Save(ctx context.Context, m *model.Model) error {
+func (m_2 *MockModelDAO) Save(ctx context.Context, m *model.Model, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Save", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Save", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Save indicates an expected call of Save.
-func (mr *MockModelDAOMockRecorder) Save(ctx, m any) *gomock.Call {
+func (mr *MockModelDAOMockRecorder) Save(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockModelDAO)(nil).Save), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockModelDAO)(nil).Save), varargs...)
 }
 
 // Update mocks base method.
@@ -1220,17 +1290,22 @@ func (mr *MockAccountDAOMockRecorder) Count(ctx, f any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockAccountDAO) Create(ctx context.Context, m *model.Account) error {
+func (m_2 *MockAccountDAO) Create(ctx context.Context, m *model.Account, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockAccountDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockAccountDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockAccountDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockAccountDAO)(nil).Create), varargs...)
 }
 
 // DeductBalance mocks base method.
@@ -1334,17 +1409,22 @@ func (mr *MockAccountDAOMockRecorder) IncreaseBalance(ctx, accountId, amount, re
 }
 
 // Save mocks base method.
-func (m_2 *MockAccountDAO) Save(ctx context.Context, m *model.Account) error {
+func (m_2 *MockAccountDAO) Save(ctx context.Context, m *model.Account, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Save", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Save", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Save indicates an expected call of Save.
-func (mr *MockAccountDAOMockRecorder) Save(ctx, m any) *gomock.Call {
+func (mr *MockAccountDAOMockRecorder) Save(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockAccountDAO)(nil).Save), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockAccountDAO)(nil).Save), varargs...)
 }
 
 // Update mocks base method.
@@ -1416,17 +1496,22 @@ func (mr *MockLedgerDAOMockRecorder) Count(ctx, f any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockLedgerDAO) Create(ctx context.Context, m *model.Ledger) error {
+func (m_2 *MockLedgerDAO) Create(ctx context.Context, m *model.Ledger, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockLedgerDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockLedgerDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockLedgerDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockLedgerDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -1500,17 +1585,22 @@ func (mr *MockLedgerDAOMockRecorder) FindOneByID(ctx, id any) *gomock.Call {
 }
 
 // Save mocks base method.
-func (m_2 *MockLedgerDAO) Save(ctx context.Context, m *model.Ledger) error {
+func (m_2 *MockLedgerDAO) Save(ctx context.Context, m *model.Ledger, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Save", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Save", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Save indicates an expected call of Save.
-func (mr *MockLedgerDAOMockRecorder) Save(ctx, m any) *gomock.Call {
+func (mr *MockLedgerDAOMockRecorder) Save(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockLedgerDAO)(nil).Save), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockLedgerDAO)(nil).Save), varargs...)
 }
 
 // Update mocks base method.
@@ -1582,17 +1672,22 @@ func (mr *MockRelayUsageDAOMockRecorder) Count(ctx, f any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockRelayUsageDAO) Create(ctx context.Context, m *model.RelayUsage) error {
+func (m_2 *MockRelayUsageDAO) Create(ctx context.Context, m *model.RelayUsage, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockRelayUsageDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockRelayUsageDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRelayUsageDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRelayUsageDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -1666,17 +1761,22 @@ func (mr *MockRelayUsageDAOMockRecorder) FindOneByID(ctx, id any) *gomock.Call {
 }
 
 // Save mocks base method.
-func (m_2 *MockRelayUsageDAO) Save(ctx context.Context, m *model.RelayUsage) error {
+func (m_2 *MockRelayUsageDAO) Save(ctx context.Context, m *model.RelayUsage, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Save", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Save", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Save indicates an expected call of Save.
-func (mr *MockRelayUsageDAOMockRecorder) Save(ctx, m any) *gomock.Call {
+func (mr *MockRelayUsageDAOMockRecorder) Save(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockRelayUsageDAO)(nil).Save), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockRelayUsageDAO)(nil).Save), varargs...)
 }
 
 // Update mocks base method.
@@ -1748,17 +1848,22 @@ func (mr *MockRelayHourlyUsageDAOMockRecorder) Count(ctx, f any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockRelayHourlyUsageDAO) Create(ctx context.Context, m *model.RelayHourlyUsage) error {
+func (m_2 *MockRelayHourlyUsageDAO) Create(ctx context.Context, m *model.RelayHourlyUsage, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockRelayHourlyUsageDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockRelayHourlyUsageDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRelayHourlyUsageDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRelayHourlyUsageDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -1832,17 +1937,22 @@ func (mr *MockRelayHourlyUsageDAOMockRecorder) FindOneByID(ctx, id any) *gomock.
 }
 
 // Save mocks base method.
-func (m_2 *MockRelayHourlyUsageDAO) Save(ctx context.Context, m *model.RelayHourlyUsage) error {
+func (m_2 *MockRelayHourlyUsageDAO) Save(ctx context.Context, m *model.RelayHourlyUsage, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Save", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Save", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Save indicates an expected call of Save.
-func (mr *MockRelayHourlyUsageDAOMockRecorder) Save(ctx, m any) *gomock.Call {
+func (mr *MockRelayHourlyUsageDAOMockRecorder) Save(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockRelayHourlyUsageDAO)(nil).Save), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockRelayHourlyUsageDAO)(nil).Save), varargs...)
 }
 
 // Update mocks base method.

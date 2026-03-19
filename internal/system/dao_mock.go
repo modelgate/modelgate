@@ -58,17 +58,22 @@ func (mr *MockUserDAOMockRecorder) Count(ctx, filter any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockUserDAO) Create(ctx context.Context, m *model.User) error {
+func (m_2 *MockUserDAO) Create(ctx context.Context, m *model.User, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockUserDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockUserDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUserDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockUserDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -210,17 +215,22 @@ func (mr *MockRefreshTokenDAOMockRecorder) Count(ctx, filter any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockRefreshTokenDAO) Create(ctx context.Context, m *model.RefreshToken) error {
+func (m_2 *MockRefreshTokenDAO) Create(ctx context.Context, m *model.RefreshToken, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockRefreshTokenDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockRefreshTokenDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRefreshTokenDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRefreshTokenDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -362,17 +372,22 @@ func (mr *MockRoleDAOMockRecorder) Count(ctx, filter any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockRoleDAO) Create(ctx context.Context, m *model.Role) error {
+func (m_2 *MockRoleDAO) Create(ctx context.Context, m *model.Role, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockRoleDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockRoleDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRoleDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockRoleDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -514,17 +529,22 @@ func (mr *MockMenuDAOMockRecorder) Count(ctx, filter any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockMenuDAO) Create(ctx context.Context, m *model.Menu) error {
+func (m_2 *MockMenuDAO) Create(ctx context.Context, m *model.Menu, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockMenuDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockMenuDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockMenuDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockMenuDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -666,17 +686,22 @@ func (mr *MockPermissionDAOMockRecorder) Count(ctx, filter any) *gomock.Call {
 }
 
 // Create mocks base method.
-func (m_2 *MockPermissionDAO) Create(ctx context.Context, m *model.Permission) error {
+func (m_2 *MockPermissionDAO) Create(ctx context.Context, m *model.Permission, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockPermissionDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockPermissionDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockPermissionDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockPermissionDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.
@@ -802,20 +827,6 @@ func (m *MockDataMigrationDAO) EXPECT() *MockDataMigrationDAOMockRecorder {
 	return m.recorder
 }
 
-// AutoMigrate mocks base method.
-func (m *MockDataMigrationDAO) AutoMigrate() error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AutoMigrate")
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// AutoMigrate indicates an expected call of AutoMigrate.
-func (mr *MockDataMigrationDAOMockRecorder) AutoMigrate() *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AutoMigrate", reflect.TypeOf((*MockDataMigrationDAO)(nil).AutoMigrate))
-}
-
 // Count mocks base method.
 func (m *MockDataMigrationDAO) Count(ctx context.Context, filter *model.DataMigrationFilter) (int64, error) {
 	m.ctrl.T.Helper()
@@ -832,17 +843,22 @@ func (mr *MockDataMigrationDAOMockRecorder) Count(ctx, filter any) *gomock.Call 
 }
 
 // Create mocks base method.
-func (m_2 *MockDataMigrationDAO) Create(ctx context.Context, m *model.DataMigration) error {
+func (m_2 *MockDataMigrationDAO) Create(ctx context.Context, m *model.DataMigration, opts ...db.Option) error {
 	m_2.ctrl.T.Helper()
-	ret := m_2.ctrl.Call(m_2, "Create", ctx, m)
+	varargs := []any{ctx, m}
+	for _, a := range opts {
+		varargs = append(varargs, a)
+	}
+	ret := m_2.ctrl.Call(m_2, "Create", varargs...)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // Create indicates an expected call of Create.
-func (mr *MockDataMigrationDAOMockRecorder) Create(ctx, m any) *gomock.Call {
+func (mr *MockDataMigrationDAOMockRecorder) Create(ctx, m any, opts ...any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockDataMigrationDAO)(nil).Create), ctx, m)
+	varargs := append([]any{ctx, m}, opts...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockDataMigrationDAO)(nil).Create), varargs...)
 }
 
 // Delete mocks base method.

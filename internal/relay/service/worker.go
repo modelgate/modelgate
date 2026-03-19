@@ -11,6 +11,7 @@ import (
 	"github.com/redis/go-redis/v9"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 
 	"github.com/modelgate/modelgate/internal/relay/model"
 	"github.com/modelgate/modelgate/pkg/db"
@@ -128,7 +129,17 @@ func (s *Service) saveRequestUsageToDB(ctx context.Context, key string) (err err
 				return
 			}
 		}
-		err = s.relayHourlyUsageDao.Create(ctx, usage)
+
+		err = s.relayHourlyUsageDao.Create(ctx, usage, db.WithClauses(
+			clause.OnConflict{
+				Columns: []clause.Column{{Name: "time"}, {Name: "provider_code"}},
+				DoUpdates: clause.Assignments(map[string]any{
+					"total_request": gorm.Expr("total_request + ?", usage.TotalRequest),
+					"total_success": gorm.Expr("total_success + ?", usage.TotalSuccess),
+					"total_failed":  gorm.Expr("total_failed + ?", usage.TotalFailed),
+					"total_point":   gorm.Expr("total_point + ?", usage.TotalPoint),
+				}),
+			}))
 		return
 	})
 	return

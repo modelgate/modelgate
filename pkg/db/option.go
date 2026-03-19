@@ -6,6 +6,7 @@ import (
 
 	"github.com/samber/lo"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 const (
@@ -15,15 +16,6 @@ const (
 
 // Option 查询选项
 type Option func(db *gorm.DB) *gorm.DB
-
-// Apply 应用选项
-func Apply(dbc *gorm.DB, opt Option, others ...Option) *gorm.DB {
-	dbc = opt(dbc)
-	for _, opt := range others {
-		dbc = opt(dbc)
-	}
-	return dbc
-}
 
 // WithFilter 对结果进行过滤
 func WithFilter(filter any) Option {
@@ -102,5 +94,12 @@ func WithOrder(order string, allowFields []string) Option {
 			return db.Order(strings.Join(orders, ","))
 		}
 		return db
+	}
+}
+
+// WithClauses 应用子句
+func WithClauses(conds ...clause.Expression) Option {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Clauses(conds...)
 	}
 }

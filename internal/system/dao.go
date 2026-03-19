@@ -9,7 +9,7 @@ import (
 )
 
 type UserDAO interface {
-	Create(ctx context.Context, m *model.User) error
+	Create(ctx context.Context, m *model.User, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.UserFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.User, update map[string]any) error
 	Count(ctx context.Context, filter *model.UserFilter) (int64, error)
@@ -20,7 +20,7 @@ type UserDAO interface {
 }
 
 type RefreshTokenDAO interface {
-	Create(ctx context.Context, m *model.RefreshToken) error
+	Create(ctx context.Context, m *model.RefreshToken, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.RefreshTokenFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.RefreshToken, update map[string]any) error
 	Count(ctx context.Context, filter *model.RefreshTokenFilter) (int64, error)
@@ -31,7 +31,7 @@ type RefreshTokenDAO interface {
 }
 
 type RoleDAO interface {
-	Create(ctx context.Context, m *model.Role) error
+	Create(ctx context.Context, m *model.Role, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.RoleFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.Role, update map[string]any) error
 	Count(ctx context.Context, filter *model.RoleFilter) (int64, error)
@@ -42,7 +42,7 @@ type RoleDAO interface {
 }
 
 type MenuDAO interface {
-	Create(ctx context.Context, m *model.Menu) error
+	Create(ctx context.Context, m *model.Menu, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.MenuFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.Menu, update map[string]any) error
 	Count(ctx context.Context, filter *model.MenuFilter) (int64, error)
@@ -53,7 +53,7 @@ type MenuDAO interface {
 }
 
 type PermissionDAO interface {
-	Create(ctx context.Context, m *model.Permission) error
+	Create(ctx context.Context, m *model.Permission, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.PermissionFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.Permission, update map[string]any) error
 	Count(ctx context.Context, filter *model.PermissionFilter) (int64, error)
@@ -64,8 +64,7 @@ type PermissionDAO interface {
 }
 
 type DataMigrationDAO interface {
-	AutoMigrate() error
-	Create(ctx context.Context, m *model.DataMigration) error
+	Create(ctx context.Context, m *model.DataMigration, opts ...db.Option) error
 	Update(ctx context.Context, filter *model.DataMigrationFilter, update map[string]any) (int64, error)
 	UpdateOne(ctx context.Context, m *model.DataMigration, update map[string]any) error
 	Count(ctx context.Context, filter *model.DataMigrationFilter) (int64, error)

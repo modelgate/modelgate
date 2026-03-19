@@ -7,67 +7,105 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-// BaseDAO provides common CRUD operations for a model M and filter F.
-type BaseDAO[M schema.Tabler, F any] struct {
+type BaseDAO[T schema.Tabler, F any] struct {
 	db *gorm.DB
 }
 
-func NewBaseDAO[M schema.Tabler, F any](conn *gorm.DB) *BaseDAO[M, F] {
-	return &BaseDAO[M, F]{db: conn}
+func NewBaseDAO[T schema.Tabler, F any](db *gorm.DB) *BaseDAO[T, F] {
+	return &BaseDAO[T, F]{db: db}
 }
 
-func (d *BaseDAO[M, F]) GetDB() *gorm.DB {
-	return d.db
+func (d *BaseDAO[T, _]) Create(ctx context.Context, m *T, opts ...Option) error {
+	tx := d.db.WithContext(ctx)
+	for _, opt := range opts {
+		tx = opt(tx)
+	}
+	return tx.Create(m).Error
 }
 
-func (d *BaseDAO[M, _]) Create(ctx context.Context, m *M) error {
-	return d.db.Create(m).Error
+func (d *BaseDAO[T, _]) Save(ctx context.Context, m *T, opts ...Option) error {
+	tx := d.db.WithContext(ctx)
+	for _, opt := range opts {
+		tx = opt(tx)
+	}
+	return tx.Save(m).Error
 }
 
-func (d *BaseDAO[M, _]) Save(ctx context.Context, m *M) error {
-	return d.db.Save(m).Error
+func (d *BaseDAO[T, F]) Update(ctx context.Context, filter *F, update map[string]any) (int64, error) {
+	tx := d.db.WithContext(ctx).Model(new(T))
+	tx = d.applyFilter(tx, filter)
+	result := tx.Updates(update)
+	return result.RowsAffected, result.Error
 }
 
-func (d *BaseDAO[M, F]) Update(ctx context.Context, filter *F, update map[string]any) (int64, error) {
-	var m M
-	res := Apply(d.db, WithFilter(filter)).Model(m).Updates(update)
-	return res.RowsAffected, res.Error
+func (d *BaseDAO[T, F]) UpdateOne(ctx context.Context, m *T, update map[string]any) error {
+	return d.db.WithContext(ctx).Model(m).Updates(update).Error
 }
 
-func (d *BaseDAO[M, _]) UpdateOne(ctx context.Context, m *M, update map[string]any) error {
-	res := Apply(d.db, WithFilter(nil)).Model(m).Updates(update)
-	return res.Error
+func (d *BaseDAO[T, F]) Count(ctx context.Context, filter *F) (int64, error) {
+	var count int64
+	tx := d.db.WithContext(ctx).Model(new(T))
+	tx = d.applyFilter(tx, filter)
+	err := tx.Count(&count).Error
+	return count, err
 }
 
-func (d *BaseDAO[M, F]) Count(ctx context.Context, f *F) (total int64, err error) {
-	var m M
-	err = Apply(d.db, WithFilter(f)).Model(&m).Count(&total).Error
-	return
+func (d *BaseDAO[T, F]) Find(ctx context.Context, filter *F, opts ...Option) ([]*T, error) {
+	var list []*T
+	tx := d.db.WithContext(ctx).Model(new(T))
+	tx = d.applyFilter(tx, filter)
+	for _, opt := range opts {
+		opt(tx)
+	}
+	err := tx.Find(&list).Error
+	return list, err
 }
 
-func (d *BaseDAO[M, F]) Find(ctx context.Context, f *F, opts ...Option) (ms []*M, err error) {
-	err = Apply(d.db, WithFilter(f), opts...).Find(&ms).Error
-	return
-}
-
-func (d *BaseDAO[M, F]) FindOne(ctx context.Context, f *F, opts ...Option) (*M, error) {
-	var m M
-	if err := Apply(d.db, WithFilter(f), opts...).Take(&m).Error; err != nil {
+func (d *BaseDAO[T, F]) FindOneByID(ctx context.Context, id int64) (*T, error) {
+	var m T
+	err := d.db.WithContext(ctx).First(&m, id).Error
+	if err != nil {
 		return nil, err
 	}
 	return &m, nil
 }
 
-func (d *BaseDAO[M, _]) FindOneByID(ctx context.Context, id int64) (*M, error) {
-	var m M
-	if err := d.db.Where("id = ?", id).First(&m).Error; err != nil {
+func (d *BaseDAO[T, F]) FindOne(ctx context.Context, filter *F, opts ...Option) (*T, error) {
+	var m T
+	tx := d.db.WithContext(ctx).Model(&m)
+	tx = d.applyFilter(tx, filter)
+	for _, opt := range opts {
+		opt(tx)
+	}
+	err := tx.First(&m).Error
+	if err != nil {
 		return nil, err
 	}
 	return &m, nil
 }
 
-func (d *BaseDAO[M, F]) Delete(ctx context.Context, filter *F) (int64, error) {
-	var m M
-	res := Apply(d.db, WithFilter(filter)).Delete(&m)
-	return res.RowsAffected, res.Error
+func (d *BaseDAO[T, F]) Delete(ctx context.Context, filter *F) (int64, error) {
+	tx := d.db.WithContext(ctx)
+	tx = d.applyFilter(tx, filter)
+	result := tx.Delete(new(T))
+	return result.RowsAffected, result.Error
+}
+
+func (d *BaseDAO[_, _]) Transaction(ctx context.Context, fn func(tx *gorm.DB) error) error {
+	return d.db.WithContext(ctx).Transaction(fn)
+}
+
+func (d *BaseDAO[T, F]) applyFilter(tx *gorm.DB, filter *F) *gorm.DB {
+	if filter == nil {
+		return tx
+	}
+	where, args, err := BuildQuery(filter)
+	if err != nil {
+		tx.AddError(err)
+		return tx
+	}
+	if where != "" {
+		tx = tx.Where(where, args...)
+	}
+	return tx
 }
