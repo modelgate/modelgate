@@ -334,6 +334,7 @@ const local: App.I18n.Schema = {
       today: 'Today',
       last7Days: 'Last 7 Days',
       last30Days: 'Last 30 Days',
+      total: 'Total',
       chartTab: {
         request: 'Request',
         point: 'Point'

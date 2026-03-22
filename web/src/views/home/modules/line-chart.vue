@@ -64,6 +64,9 @@ const { domRef, updateOptions, showLoading, hideLoading } = useEcharts(() => ({
 // Store series names for locale updates
 const seriesNames = ref<string[]>([]);
 
+// Store total
+const total = ref<bigint>(BigInt(0));
+
 // Get Y axis name based on chart tab
 function getYAxisName() {
   switch (chartTab.value) {
@@ -183,6 +186,9 @@ async function fetchData() {
     // Store series names for locale update
     seriesNames.value = response.series.map(s => s.name);
 
+    // Store total
+    total.value = response.total;
+
     updateOptions(opts => {
       opts.legend.data = seriesNames.value;
       opts.xAxis.data = xAxisData;
@@ -282,6 +288,11 @@ init();
         </NSpace>
       </div>
 
+      <!-- Total Count -->
+      <div class="total-count">
+        {{ $t('page.home.total') }}: {{ total.toLocaleString() }}
+      </div>
+
       <!-- Chart -->
       <div ref="domRef" class="h-360px overflow-hidden"></div>
     </NSpace>
@@ -306,6 +317,11 @@ init();
 .compact-tabs {
   flex-shrink: 0;
   max-width: 150px;
+}
+
+.total-count {
+  font-size: 14px;
+  color: #666;
 }
 
 /* 使用容器查询,基于卡片宽度而不是视口宽度 */

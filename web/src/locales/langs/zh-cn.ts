@@ -335,6 +335,7 @@ const local: App.I18n.Schema = {
       today: '当天',
       last7Days: '最近 7 天',
       last30Days: '最近 30 天',
+      total: '总计',
       chartTab: {
         request: '请求量',
         point: '消费点数'

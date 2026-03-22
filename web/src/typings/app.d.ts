@@ -506,6 +506,7 @@ declare namespace App {
           today: string;
           last7Days: string;
           last30Days: string;
+          total: string;
           chartTab: {
             request: string;
             point: string;

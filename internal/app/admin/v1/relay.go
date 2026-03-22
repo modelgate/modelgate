@@ -470,6 +470,15 @@ func (s *RelayService) GetRelayUsage(ctx context.Context, req *connect.Request[v
 		providerCodes = append(providerCodes, core.AllProviderCodeList...)
 	}
 
+	// 计算总量
+	var total int64
+	switch req.Msg.ChartType {
+	case "point":
+		total = lo.SumBy(list, func(item *model.RelayHourlyUsage) int64 { return item.TotalPoint })
+	default:
+		total = lo.SumBy(list, func(item *model.RelayHourlyUsage) int64 { return item.TotalRequest })
+	}
+
 	series := make([]*relaypb.UsageSerie, 0, len(providerCodes))
 	for _, providerCode := range providerCodes {
 		valueList := groupMap[providerCode]
@@ -494,7 +503,10 @@ func (s *RelayService) GetRelayUsage(ctx context.Context, req *connect.Request[v
 			Data: dataList,
 		})
 	}
-	resp = connect.NewResponse(&v1pb.GetRelayUsageResponse{Series: series})
+	resp = connect.NewResponse(&v1pb.GetRelayUsageResponse{
+		Series: series,
+		Total:  total,
+	})
 	return resp, nil
 }
 

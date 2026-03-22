@@ -70,7 +70,8 @@ message GetRelayUsageRequest {
 }
 
 message GetRelayUsageResponse {
-  repeated relay.UsageSerie series = 1; 
+  repeated relay.UsageSerie series = 1;
+  int64 total = 2;
 }
 
 message GetRelayInfoRequest {}
