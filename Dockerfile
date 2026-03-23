@@ -32,6 +32,9 @@ FROM node:22-alpine AS web-builder
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
+# Version info for build
+ARG GIT_VERSION
+
 WORKDIR /app/web
 
 # Copy package files
@@ -50,6 +53,7 @@ COPY --from=proto-generator /build/web/src/typings/proto ./src/typings/proto
 COPY web/ .
 
 # Build the web UI
+ENV APP_VERSION=${GIT_VERSION}
 RUN pnpm run build
 
 # =============================================================================
