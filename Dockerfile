@@ -27,7 +27,7 @@ RUN buf dep update && buf generate .
 # =============================================================================
 # Stage 2: Build Web UI
 # =============================================================================
-FROM node:20-alpine AS web-builder
+FROM node:22-alpine AS web-builder
 
 # Install pnpm
 RUN corepack enable && corepack prepare pnpm@latest --activate
