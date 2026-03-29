@@ -9,6 +9,7 @@ import (
 	"github.com/modelgate/modelgate/internal/runtime/hooks"
 	"github.com/modelgate/modelgate/internal/runtime/provider/ali"
 	"github.com/modelgate/modelgate/internal/runtime/provider/anthropic"
+	"github.com/modelgate/modelgate/internal/runtime/provider/gemini"
 	"github.com/modelgate/modelgate/internal/runtime/provider/minimax"
 	"github.com/modelgate/modelgate/internal/runtime/provider/openai"
 	"github.com/modelgate/modelgate/internal/runtime/provider/zhipu"
@@ -25,8 +26,9 @@ func Init(i do.Injector) {
 	// Provider
 	ali.Init(i)
 	anthropic.Init(i)
-	openai.Init(i)
+	gemini.Init(i)
 	minimax.Init(i)
+	openai.Init(i)
 	zhipu.Init(i)
 }
 

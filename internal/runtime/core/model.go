@@ -4,6 +4,7 @@ const (
 	ProviderCodeAli       string = "ali"       // 阿里云百炼
 	ProviderCodeAnthropic string = "anthropic" // Anthropic
 	ProviderCodeDeepSeek  string = "deepseek"  // DeepSeek
+	ProviderCodeGemini    string = "gemini"    // Google Gemini
 	ProviderCodeOpenAI    string = "openai"    // OpenAI
 	ProviderCodeZhipu     string = "zhipu"     // 智谱 - bigmodel
 	ProviderCodeMinimax   string = "minimax"   // MiniMax
@@ -13,6 +14,7 @@ var AllProviderCodeList = []string{
 	ProviderCodeAli,
 	ProviderCodeAnthropic,
 	ProviderCodeDeepSeek,
+	ProviderCodeGemini,
 	ProviderCodeOpenAI,
 	ProviderCodeZhipu,
 	ProviderCodeMinimax,
