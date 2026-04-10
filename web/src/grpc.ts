@@ -7,7 +7,7 @@ import { RelayService } from './typings/proto/admin/v1/relay_pb';
 import { SystemService } from './typings/proto/admin/v1/system_pb';
 import { getToken, handleRefreshToken } from './store/modules/auth/shared';
 
-const grpcServiceUrl = import.meta.env.VITE_PUBLIC_GRPC_SERVICE_URL || '/grpc';
+const grpcServiceUrl = import.meta.env.VITE_PUBLIC_GRPC_SERVICE_URL || '/api';
 
 const logInterceptor: Interceptor = next => async req => {
   console.log('request message: ', req.message);

@@ -3,6 +3,7 @@ package v1
 import (
 	"context"
 	"errors"
+	"net/http"
 
 	"connectrpc.com/authn"
 	"connectrpc.com/connect"
@@ -38,16 +39,32 @@ func (s *AuthService) Login(ctx context.Context, req *connect.Request[v1pb.Login
 	}
 	resp = connect.NewResponse(
 		&v1pb.LoginResponse{
-			AccessToken:  result.AccessToken,
-			RefreshToken: result.RefreshToken,
+			AccessToken: result.AccessToken,
 		},
 	)
+	cookie := &http.Cookie{
+		Name:     "refresh_token",
+		Value:    result.RefreshToken,
+		Path:     "/api/admin.v1.AuthService",
+		HttpOnly: true,
+		SameSite: http.SameSiteDefaultMode,
+		// Secure:   true, // 只有https才需要
+	}
+	resp.Header().Add("Set-Cookie", cookie.String())
 	return resp, nil
 }
 
 func (s *AuthService) RefreshToken(ctx context.Context, req *connect.Request[v1pb.RefreshTokenRequest]) (resp *connect.Response[v1pb.RefreshTokenResponse], err error) {
+	cookieHeader := req.Header().Get("Cookie")
+	header := http.Header{"Cookie": []string{cookieHeader}}
+	r := &http.Request{Header: header}
+	tokenCookie, err := r.Cookie("refresh_token")
+	if err != nil {
+		err = connect.NewError(connect.CodeUnauthenticated, errors.New("missing refresh token"))
+		return
+	}
 	result, err := s.systemService.RefreshToken(ctx, &model.RefreshTokenRequest{
-		RefreshToken: req.Msg.RefreshToken,
+		RefreshToken: tokenCookie.Value,
 	})
 	if err != nil {
 		err = connect.NewError(connect.CodeUnauthenticated, err)
@@ -55,10 +72,18 @@ func (s *AuthService) RefreshToken(ctx context.Context, req *connect.Request[v1p
 	}
 	resp = connect.NewResponse(
 		&v1pb.RefreshTokenResponse{
-			AccessToken:  result.AccessToken,
-			RefreshToken: result.RefreshToken,
+			AccessToken: result.AccessToken,
 		},
 	)
+	cookie := &http.Cookie{
+		Name:     "refresh_token",
+		Value:    result.RefreshToken,
+		Path:     "/api/admin.v1.AuthService",
+		HttpOnly: true,
+		SameSite: http.SameSiteDefaultMode,
+		// Secure:   true, // 只有https才需要
+	}
+	resp.Header().Add("Set-Cookie", cookie.String())
 	return resp, nil
 }
 

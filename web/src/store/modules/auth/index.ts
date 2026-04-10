@@ -64,7 +64,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   async function login(userName: string, password: string, rememberMe: boolean, redirect = true) {
     startLoading();
     try {
-      const { accessToken, refreshToken } = await authServiceClient.login({
+      const { accessToken } = await authServiceClient.login({
         username: userName,
         password,
         rememberMe
@@ -72,7 +72,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
       if (!accessToken) {
         throw new Error('Failed to get access token');
       }
-      const pass = await loginByToken(accessToken, refreshToken);
+      const pass = await loginByToken(accessToken);
       if (pass) {
         await redirectFromLogin(redirect);
 
@@ -94,10 +94,9 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     endLoading();
   }
 
-  async function loginByToken(accessToken: string, refreshToken: string) {
+  async function loginByToken(accessToken: string) {
     // 1. stored in the localStorage, the later requests need it in headers
     localStg.set('token', accessToken);
-    localStg.set('refreshToken', refreshToken);
 
     // 2. get user info
     const pass = await getUserInfo();

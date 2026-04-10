@@ -29,13 +29,10 @@ service AuthService {
 }
 
 message RefreshTokenRequest {
-  // The refresh token to refresh.
-  string refresh_token = 1;
 }
 
 message RefreshTokenResponse {
   string access_token = 1;
-  string refresh_token = 2;
 }
 
 message LoginRequest {
@@ -49,7 +46,6 @@ message LoginRequest {
 
 message LoginResponse{
     string access_token = 1;
-    string refresh_token = 2;
 }
 
 message SignUpRequest {
