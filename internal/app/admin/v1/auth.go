@@ -85,10 +85,6 @@ func (s *AuthService) GetUserInfo(ctx context.Context, req *connect.Request[v1pb
 	buttons := lo.FlatMap(perms, func(permission *model.RolePermission, index int) []string {
 		return permission.Buttons
 	})
-	if err != nil {
-		err = connect.NewError(connect.CodeUnauthenticated, err)
-		return
-	}
 
 	resp = connect.NewResponse(
 		&v1pb.GetUserInfoResponse{
