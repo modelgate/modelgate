@@ -121,10 +121,10 @@ cp .env.example .env
 
 ```toml
 [apiServer]
-port = 8888
+port = 8088
 
 [adminServer]
-port = 8889
+port = 8080
 
 [database]
 type = "mysql"
@@ -301,8 +301,8 @@ go run cmd/main.go migrate
 
 | 服务 | 端口 | 说明 |
 |------|------|------|
-| API 转发服务 | 8888 | OpenAI 兼容的 API 接口 |
-| 管理后台服务 | 8889 | gRPC-Web 管理接口 |
+| API 转发服务 | 8088 | OpenAI 兼容的 API 接口 |
+| 管理后台服务 | 8080 | gRPC-Web 管理接口 |
 | Web 前端 | 9527 | 管理后台界面 |
 
 
