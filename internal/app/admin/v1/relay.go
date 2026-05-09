@@ -296,7 +296,7 @@ func (s *RelayService) GetLedgerList(ctx context.Context, req *connect.Request[v
 		return
 	}
 	accountMap := lo.Associate(accountList, func(item *model.Account) (int64, string) {
-		return item.ID, item.Name
+		return item.ID, item.DisplayName()
 	})
 	resp = connect.NewResponse(
 		&v1pb.GetLedgerListResponse{
@@ -363,7 +363,7 @@ func (s *RelayService) GetAccountApiKeyList(ctx context.Context, req *connect.Re
 		return
 	}
 	accountMap := lo.Associate(accountList, func(item *model.Account) (int64, string) {
-		return item.ID, item.Name
+		return item.ID, item.DisplayName()
 	})
 	resp = connect.NewResponse(
 		&v1pb.GetAccountApiKeyListResponse{
@@ -414,8 +414,6 @@ func (s *RelayService) DeleteAccounts(ctx context.Context, req *connect.Request[
 func (s *RelayService) GetAccountList(ctx context.Context, req *connect.Request[v1pb.GetAccountListRequest]) (resp *connect.Response[v1pb.GetAccountListResponse], err error) {
 	total, list, err := s.relayService.GetAccountList(ctx, &model.GetAccountListRequest{
 		PageParam: types.NewPageParam(int64(req.Msg.Current), int64(req.Msg.Size), req.Msg.OrderBy),
-		Name:      strings.TrimSpace(req.Msg.Name),
-		Nickname:  strings.TrimSpace(req.Msg.Nickname),
 		Status:    model.EnableStatus(strings.TrimSpace(req.Msg.Status)),
 	})
 	if err != nil {
@@ -588,7 +586,7 @@ func (s *RelayService) GetRequestList(ctx context.Context, req *connect.Request[
 		return
 	}
 	userMap := lo.Associate(users, func(item *model.Account) (int64, string) {
-		return item.ID, item.Name
+		return item.ID, item.DisplayName()
 	})
 
 	resp = connect.NewResponse(

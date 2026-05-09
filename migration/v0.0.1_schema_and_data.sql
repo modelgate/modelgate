@@ -28,14 +28,13 @@ DROP TABLE IF EXISTS `accounts`;
 
 CREATE TABLE `accounts` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `nickname` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
-  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `principal_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
+  `principal_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '',
   `balance` bigint unsigned NOT NULL DEFAULT '0',
   `status` enum('enabled','disabled') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'enabled',
   `updated_at` datetime(3) NOT NULL COMMENT '更新时间',
   `created_at` datetime(3) NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_name` (`name`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10003 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 

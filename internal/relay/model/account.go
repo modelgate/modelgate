@@ -25,10 +25,10 @@ import (
 type Account struct {
 	db.Model
 
-	Nickname string       `gorm:"type:varchar(64);not null;default:'';"`                     // 昵称
-	Name     string       `gorm:"type:varchar(64);not null;default:'';uniqueIndex:uk_name"`  // 账户名称
-	Balance  int64        `gorm:"type:bigint unsigned;not null;default:0;"`                  // 余额: 点数
-	Status   EnableStatus `gorm:"type:enum('enabled','disabled');not null;default:enabled;"` // 状态
+	PrincipalType string       `gorm:"type:varchar(64);not null;default:'';"`                     // 主体类型
+	PrincipalID   string       `gorm:"column:principal_id;type:varchar(64);not null;default:'';"` // 主体ID
+	Balance       int64        `gorm:"type:bigint unsigned;not null;default:0;"`                  // 余额: 点数
+	Status        EnableStatus `gorm:"type:enum('enabled','disabled');not null;default:enabled;"` // 状态
 }
 
 func (Account) TableName() string {
@@ -36,18 +36,27 @@ func (Account) TableName() string {
 }
 
 type AccountFilter struct {
-	ID       db.F[int64]
-	IDs      db.F[[]int64] `gorm:"column:id"`
-	Name     db.F[string]
-	Nickname db.F[string]
-	Status   db.F[EnableStatus]
+	ID            db.F[int64]
+	IDs           db.F[[]int64] `gorm:"column:id"`
+	PrincipalType db.F[string]
+	PrincipalID   db.F[string] `gorm:"column:principal_id"`
+	Status        db.F[EnableStatus]
+}
+
+func (m *Account) DisplayName() string {
+	if m.PrincipalID != "" {
+		return m.PrincipalID
+	}
+	if m.PrincipalType != "" {
+		return m.PrincipalType
+	}
+	return "-"
 }
 
 func (m *Account) ToProto() *relaypb.Account {
 	return &relaypb.Account{
 		Id:        m.ID,
-		Nickname:  m.Nickname,
-		Name:      m.Name,
+		Name:      m.DisplayName(),
 		Balance:   m.Balance,
 		Status:    string(m.Status),
 		CreatedAt: timestamppb.New(m.CreatedAt),
@@ -71,9 +80,9 @@ type DeleteAccountsRequest struct {
 type GetAccountListRequest struct {
 	*types.PageParam
 
-	Id       int64
-	Ids      []int64
-	Name     string
-	Nickname string
-	Status   EnableStatus
+	Id            int64
+	Ids           []int64
+	PrincipalType string
+	PrincipalID   string
+	Status        EnableStatus
 }

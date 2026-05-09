@@ -48,9 +48,10 @@ func (s *Service) AddBalance(ctx context.Context, accountId int64, amount int64,
 
 func (s *Service) GetAccountList(ctx context.Context, req *model.GetAccountListRequest) (total int64, list []*model.Account, err error) {
 	f := &model.AccountFilter{
-		IDs:    db.In(req.Ids, db.OmitIfZero[[]int64]()),
-		Name:   db.Eq(req.Name, db.OmitIfZero[string]()),
-		Status: db.Eq(req.Status, db.OmitIfZero[model.EnableStatus]()),
+		IDs:           db.In(req.Ids, db.OmitIfZero[[]int64]()),
+		PrincipalType: db.Eq(req.PrincipalType, db.OmitIfZero[string]()),
+		PrincipalID:   db.Eq(req.PrincipalID, db.OmitIfZero[string]()),
+		Status:        db.Eq(req.Status, db.OmitIfZero[model.EnableStatus]()),
 	}
 	var options []db.Option
 	if req.PageParam != nil {
@@ -70,19 +71,11 @@ func (s *Service) GetAccountList(ctx context.Context, req *model.GetAccountListR
 }
 
 func (s *Service) CreateAccount(ctx context.Context, req *model.CreateAccountRequest) (info *model.Account, err error) {
-	info, err = s.accountDao.FindOne(ctx, &model.AccountFilter{Name: db.Eq(req.Account.Name)})
-	if db.IsDbError(err) {
-		return
-	}
-	if info != nil {
-		err = fmt.Errorf("account already exists, name: %s", req.Account.Name)
-		return
-	}
 	info = &model.Account{
-		Name:     req.Account.Name,
-		Nickname: req.Account.Nickname,
-		Balance:  req.Account.Balance,
-		Status:   model.EnableStatus(req.Account.Status),
+		PrincipalType: "modelgate",
+		PrincipalID:   "",
+		Balance:       req.Account.Balance,
+		Status:        model.EnableStatus(req.Account.Status),
 	}
 	err = s.accountDao.Create(ctx, info)
 	return
@@ -98,12 +91,6 @@ func (s *Service) UpdateAccount(ctx context.Context, req *model.UpdateAccountReq
 		return
 	}
 	update := make(map[string]any)
-	if lo.Contains(req.UpdateMask, "name") {
-		update["name"] = req.Account.Name
-	}
-	if lo.Contains(req.UpdateMask, "nickname") {
-		update["nickname"] = req.Account.Nickname
-	}
 	if lo.Contains(req.UpdateMask, "balance") {
 		update["balance"] = req.Account.Balance
 	}
