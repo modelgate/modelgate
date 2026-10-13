@@ -3,10 +3,8 @@ package v1
 import (
 	"context"
 	"encoding/json"
-	"errors"
 
-	"connectrpc.com/authn"
-	"connectrpc.com/connect"
+	"connectrpc.com/connect/v2"
 	"github.com/samber/do/v2"
 	"github.com/samber/lo"
 	"github.com/sirupsen/logrus"
@@ -33,94 +31,92 @@ func NewSystemService(i do.Injector) (*SystemService, error) {
 	}, nil
 }
 
-func (s *SystemService) CreateUser(ctx context.Context, req *connect.Request[v1pb.CreateUserRequest]) (userInfo *connect.Response[systempb.User], err error) {
+func (s *SystemService) CreateUser(ctx context.Context, req *v1pb.CreateUserRequest) (userInfo *systempb.User, err error) {
 	user, err := s.systemService.CreateUser(ctx, &model.CreateUserRequest{
-		User: req.Msg.User,
+		User: req.User,
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	userInfo = connect.NewResponse(user.ToProto())
+	userInfo = user.ToProto()
 	return
 }
 
-func (s *SystemService) UpdateUser(ctx context.Context, req *connect.Request[v1pb.UpdateUserRequest]) (userInfo *connect.Response[systempb.User], err error) {
+func (s *SystemService) UpdateUser(ctx context.Context, req *v1pb.UpdateUserRequest) (userInfo *systempb.User, err error) {
 	user, err := s.systemService.UpdateUser(ctx, &model.UpdateUserRequest{
-		User:       req.Msg.User,
-		UpdateMask: req.Msg.UpdateMask.Paths,
+		User:       req.User,
+		UpdateMask: req.UpdateMask.Paths,
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	userInfo = connect.NewResponse(user.ToProto())
+	userInfo = user.ToProto()
 	return
 }
 
-func (s *SystemService) GetUserList(ctx context.Context, req *connect.Request[v1pb.GetUserListRequest]) (resp *connect.Response[v1pb.GetUserListResponse], err error) {
+func (s *SystemService) GetUserList(ctx context.Context, req *v1pb.GetUserListRequest) (resp *v1pb.GetUserListResponse, err error) {
 	total, users, err := s.systemService.GetUserList(ctx, &model.GetUserListRequest{
-		PageParam: types.NewPageParam(int64(req.Msg.Current), int64(req.Msg.Size), req.Msg.OrderBy),
-		Username:  req.Msg.Username,
-		Phone:     req.Msg.Phone,
-		Nickname:  req.Msg.Nickname,
-		Gender:    req.Msg.Gender,
-		Email:     req.Msg.Email,
-		Status:    model.EnableStatus(req.Msg.Status),
+		PageParam: types.NewPageParam(int64(req.Current), int64(req.Size), req.OrderBy),
+		Username:  req.Username,
+		Phone:     req.Phone,
+		Nickname:  req.Nickname,
+		Gender:    req.Gender,
+		Email:     req.Email,
+		Status:    model.EnableStatus(req.Status),
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(
-		&v1pb.GetUserListResponse{
-			Current: req.Msg.Current,
-			Size:    req.Msg.Size,
-			Total:   uint32(total),
-			Records: lo.Map(users, func(user *model.User, _ int) *systempb.User {
-				return user.ToProto()
-			}),
-		})
+	resp = &v1pb.GetUserListResponse{
+		Current: req.Current,
+		Size:    req.Size,
+		Total:   uint32(total),
+		Records: lo.Map(users, func(user *model.User, _ int) *systempb.User {
+			return user.ToProto()
+		}),
+	}
 	return resp, nil
 }
 
-func (s *SystemService) DeleteUsers(ctx context.Context, req *connect.Request[v1pb.DeleteUsersRequest]) (_ *connect.Response[emptypb.Empty], err error) {
-	err = s.systemService.DeleteUsers(ctx, &model.DeleteUsersRequest{IDs: req.Msg.Ids})
+func (s *SystemService) DeleteUsers(ctx context.Context, req *v1pb.DeleteUsersRequest) (_ *emptypb.Empty, err error) {
+	err = s.systemService.DeleteUsers(ctx, &model.DeleteUsersRequest{IDs: req.Ids})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
 	return
 }
 
-func (s *SystemService) GetRoleList(ctx context.Context, req *connect.Request[v1pb.GetRoleListRequest]) (resp *connect.Response[v1pb.GetRoleListResponse], err error) {
+func (s *SystemService) GetRoleList(ctx context.Context, req *v1pb.GetRoleListRequest) (resp *v1pb.GetRoleListResponse, err error) {
 	total, roles, err := s.systemService.GetRoleList(ctx, &model.GetRoleListRequest{
-		PageParam:   types.NewPageParam(int64(req.Msg.Current), int64(req.Msg.Size), req.Msg.OrderBy),
-		Name:        req.Msg.Name,
-		Code:        req.Msg.Code,
-		Description: req.Msg.Description,
-		Status:      model.EnableStatus(req.Msg.Status),
+		PageParam:   types.NewPageParam(int64(req.Current), int64(req.Size), req.OrderBy),
+		Name:        req.Name,
+		Code:        req.Code,
+		Description: req.Description,
+		Status:      model.EnableStatus(req.Status),
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(
-		&v1pb.GetRoleListResponse{
-			Current: req.Msg.Current,
-			Size:    req.Msg.Size,
-			Total:   uint32(total),
-			Records: lo.Map(roles, func(role *model.Role, _ int) *systempb.Role {
-				return role.ToProto()
-			}),
-		})
+	resp = &v1pb.GetRoleListResponse{
+		Current: req.Current,
+		Size:    req.Size,
+		Total:   uint32(total),
+		Records: lo.Map(roles, func(role *model.Role, _ int) *systempb.Role {
+			return role.ToProto()
+		}),
+	}
 	return resp, nil
 }
 
-func (s *SystemService) GetRoleInfo(ctx context.Context, req *connect.Request[v1pb.GetRoleInfoRequest]) (resp *connect.Response[systempb.Role], err error) {
-	role, err := s.systemService.GetRole(ctx, &model.GetRoleRequest{ID: req.Msg.Id})
+func (s *SystemService) GetRoleInfo(ctx context.Context, req *v1pb.GetRoleInfoRequest) (resp *systempb.Role, err error) {
+	role, err := s.systemService.GetRole(ctx, &model.GetRoleRequest{ID: req.Id})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
 
@@ -131,74 +127,74 @@ func (s *SystemService) GetRoleInfo(ctx context.Context, req *connect.Request[v1
 		MenuIds: perm.MenuIds,
 		Buttons: perm.Buttons,
 	}
-	resp = connect.NewResponse(info)
+	resp = info
 	return resp, nil
 }
 
-func (s *SystemService) CreateRole(ctx context.Context, req *connect.Request[v1pb.CreateRoleRequest]) (resp *connect.Response[systempb.Role], err error) {
+func (s *SystemService) CreateRole(ctx context.Context, req *v1pb.CreateRoleRequest) (resp *systempb.Role, err error) {
 	role, err := s.systemService.CreateRole(ctx, &model.CreateRoleRequest{
-		Role: req.Msg.Role})
+		Role: req.Role})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(role.ToProto())
+	resp = role.ToProto()
 	return resp, nil
 }
 
-func (s *SystemService) UpdateRole(ctx context.Context, req *connect.Request[v1pb.UpdateRoleRequest]) (resp *connect.Response[systempb.Role], err error) {
+func (s *SystemService) UpdateRole(ctx context.Context, req *v1pb.UpdateRoleRequest) (resp *systempb.Role, err error) {
 	role, err := s.systemService.UpdateRole(ctx, &model.UpdateRoleRequest{
-		Role:       req.Msg.Role,
-		UpdateMask: req.Msg.UpdateMask.Paths,
+		Role:       req.Role,
+		UpdateMask: req.UpdateMask.Paths,
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(role.ToProto())
+	resp = role.ToProto()
 	return resp, nil
 }
 
-func (s *SystemService) UpdateRolePermission(ctx context.Context, req *connect.Request[v1pb.UpdateRolePermissionRequest]) (resp *connect.Response[systempb.Role], err error) {
+func (s *SystemService) UpdateRolePermission(ctx context.Context, req *v1pb.UpdateRolePermissionRequest) (resp *systempb.Role, err error) {
 	role, err := s.systemService.UpdateRolePermission(ctx, &model.UpdateRolePermissionRequest{
-		ID:         req.Msg.Id,
-		UpdateMask: req.Msg.UpdateMask.Paths,
-		Home:       req.Msg.Home,
-		MenuIds:    req.Msg.MenuIds,
-		Buttons:    req.Msg.Buttons,
+		ID:         req.Id,
+		UpdateMask: req.UpdateMask.Paths,
+		Home:       req.Home,
+		MenuIds:    req.MenuIds,
+		Buttons:    req.Buttons,
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(role.ToProto())
+	resp = role.ToProto()
 	return resp, nil
 }
 
-func (s *SystemService) DeleteRoles(ctx context.Context, req *connect.Request[v1pb.DeleteRolesRequest]) (_ *connect.Response[emptypb.Empty], err error) {
-	err = s.systemService.DeleteRoles(ctx, &model.DeleteRolesRequest{IDs: req.Msg.Ids})
+func (s *SystemService) DeleteRoles(ctx context.Context, req *v1pb.DeleteRolesRequest) (_ *emptypb.Empty, err error) {
+	err = s.systemService.DeleteRoles(ctx, &model.DeleteRolesRequest{IDs: req.Ids})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
 	return
 }
 
-func (s *SystemService) GetMenuList(ctx context.Context, req *connect.Request[v1pb.GetMenuListRequest]) (resp *connect.Response[v1pb.GetMenuListResponse], err error) {
+func (s *SystemService) GetMenuList(ctx context.Context, req *v1pb.GetMenuListRequest) (resp *v1pb.GetMenuListResponse, err error) {
 	total, menus, err := s.systemService.GetMenuList(ctx, &model.GetMenuListRequest{
-		PageParam: types.NewPageParam(int64(req.Msg.Current), int64(req.Msg.Size), req.Msg.OrderBy),
+		PageParam: types.NewPageParam(int64(req.Current), int64(req.Size), req.OrderBy),
 		IsRoot:    true,
-		Name:      req.Msg.Name,
-		Status:    model.EnableStatus(req.Msg.Status),
+		Name:      req.Name,
+		Status:    model.EnableStatus(req.Status),
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
 
 	_, childMenus, err := s.systemService.GetMenuList(ctx, &model.GetMenuListRequest{IsChild: true})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
 	groupedMenus := lo.GroupBy(childMenus, func(menu *model.Menu) int64 {
@@ -217,60 +213,60 @@ func (s *SystemService) GetMenuList(ctx context.Context, req *connect.Request[v1
 		})
 	}
 
-	resp = connect.NewResponse(&v1pb.GetMenuListResponse{
-		Current: req.Msg.Current,
-		Size:    req.Msg.Size,
+	resp = &v1pb.GetMenuListResponse{
+		Current: req.Current,
+		Size:    req.Size,
 		Total:   uint32(total),
 		Records: lo.Map(menus, func(menu *model.Menu, _ int) *systempb.Menu {
 			item := menu.ToProto()
 			item.Children = getChildren(menu.ID)
 			return item
 		}),
-	})
+	}
 	return resp, nil
 }
 
-func (s *SystemService) CreateMenu(ctx context.Context, req *connect.Request[v1pb.CreateMenuRequest]) (resp *connect.Response[systempb.Menu], err error) {
+func (s *SystemService) CreateMenu(ctx context.Context, req *v1pb.CreateMenuRequest) (resp *systempb.Menu, err error) {
 	menu, err := s.systemService.CreateMenu(ctx, &model.CreateMenuRequest{
-		Menu: req.Msg.Menu})
+		Menu: req.Menu})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(menu.ToProto())
+	resp = menu.ToProto()
 	return resp, nil
 }
 
-func (s *SystemService) UpdateMenu(ctx context.Context, req *connect.Request[v1pb.UpdateMenuRequest]) (resp *connect.Response[systempb.Menu], err error) {
+func (s *SystemService) UpdateMenu(ctx context.Context, req *v1pb.UpdateMenuRequest) (resp *systempb.Menu, err error) {
 	menu, err := s.systemService.UpdateMenu(ctx, &model.UpdateMenuRequest{
-		Menu:       req.Msg.Menu,
-		UpdateMask: req.Msg.UpdateMask.Paths,
+		Menu:       req.Menu,
+		UpdateMask: req.UpdateMask.Paths,
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(menu.ToProto())
+	resp = menu.ToProto()
 	return resp, nil
 }
 
-func (s *SystemService) DeleteMenus(ctx context.Context, req *connect.Request[v1pb.DeleteMenusRequest]) (resp *connect.Response[emptypb.Empty], err error) {
-	err = s.systemService.DeleteMenus(ctx, &model.DeleteMenusRequest{IDs: req.Msg.Ids})
+func (s *SystemService) DeleteMenus(ctx context.Context, req *v1pb.DeleteMenusRequest) (resp *emptypb.Empty, err error) {
+	err = s.systemService.DeleteMenus(ctx, &model.DeleteMenusRequest{IDs: req.Ids})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(&emptypb.Empty{})
+	resp = &emptypb.Empty{}
 	return
 }
 
-func (s *SystemService) GetConstantRoutes(ctx context.Context, req *connect.Request[v1pb.GetConstantRoutesRequest]) (resp *connect.Response[v1pb.GetConstantRoutesResponse], err error) {
+func (s *SystemService) GetConstantRoutes(ctx context.Context, req *v1pb.GetConstantRoutesRequest) (resp *v1pb.GetConstantRoutesResponse, err error) {
 	_, menus, err := s.systemService.GetMenuList(ctx, &model.GetMenuListRequest{
 		IsConstant: true,
 		IsRoot:     true,
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
 	_, childMenus, err := s.systemService.GetMenuList(ctx, &model.GetMenuListRequest{
@@ -280,7 +276,7 @@ func (s *SystemService) GetConstantRoutes(ctx context.Context, req *connect.Requ
 		}),
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
 	groupedMenus := lo.GroupBy(childMenus, func(menu *model.Menu) int64 {
@@ -300,26 +296,26 @@ func (s *SystemService) GetConstantRoutes(ctx context.Context, req *connect.Requ
 		})
 	}
 
-	resp = connect.NewResponse(&v1pb.GetConstantRoutesResponse{
+	resp = &v1pb.GetConstantRoutesResponse{
 		Routes: lo.Map(menus, func(menu *model.Menu, _ int) *systempb.MenuRoute {
 			item := menu.ToMenuRouteProto()
 			item.Children = getChildren(menu.ID)
 			return item
 		}),
-	})
+	}
 	return
 }
 
-func (s *SystemService) GetUserRoutes(ctx context.Context, req *connect.Request[v1pb.GetUserRoutesRequest]) (resp *connect.Response[v1pb.GetUserRoutesResponse], err error) {
-	userId, ok := authn.GetInfo(ctx).(int64)
+func (s *SystemService) GetUserRoutes(ctx context.Context, req *v1pb.GetUserRoutesRequest) (resp *v1pb.GetUserRoutesResponse, err error) {
+	userId, ok := system.UserIDFromContext(ctx)
 	if !ok {
-		err = connect.NewError(connect.CodeUnauthenticated, errors.New("invalid access token"))
+		err = connect.NewError(connect.CodeUnauthenticated, "invalid access token")
 		return
 	}
 
 	isSuperAdmin, perms, err := s.systemService.GetUserPermissions(ctx, userId)
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
 	var home string
@@ -337,7 +333,7 @@ func (s *SystemService) GetUserRoutes(ctx context.Context, req *connect.Request[
 		IsUserRoute: true,
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
 	groupMenus := lo.GroupBy(menuList, func(menu *model.Menu) int64 { return menu.Pid })
@@ -359,44 +355,44 @@ func (s *SystemService) GetUserRoutes(ctx context.Context, req *connect.Request[
 		})
 	}
 
-	resp = connect.NewResponse(&v1pb.GetUserRoutesResponse{
+	resp = &v1pb.GetUserRoutesResponse{
 		Home:   home,
 		Routes: getChildMenu(0),
-	})
+	}
 	return
 }
 
-func (s *SystemService) GetPageList(ctx context.Context, req *connect.Request[v1pb.GetPageListRequest]) (resp *connect.Response[v1pb.GetPageListResponse], err error) {
+func (s *SystemService) GetPageList(ctx context.Context, req *v1pb.GetPageListRequest) (resp *v1pb.GetPageListResponse, err error) {
 	total, menuList, err := s.systemService.GetMenuList(ctx, &model.GetMenuListRequest{
 		Status:    model.EnableStatusEnabled,
 		PageParam: types.NewPageParam(1, 1000, ""),
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(&v1pb.GetPageListResponse{
+	resp = &v1pb.GetPageListResponse{
 		Total: uint32(total),
 		Records: lo.Map(menuList, func(item *model.Menu, _ int) string {
 			return item.RouteName
 		}),
-	})
+	}
 	return
 }
 
 // GetButtonList 按钮列表
-func (s *SystemService) GetButtonList(ctx context.Context, req *connect.Request[v1pb.GetButtonListRequest]) (resp *connect.Response[v1pb.GetButtonListResponse], err error) {
+func (s *SystemService) GetButtonList(ctx context.Context, req *v1pb.GetButtonListRequest) (resp *v1pb.GetButtonListResponse, err error) {
 	_, menuList, err := s.systemService.GetMenuList(ctx, &model.GetMenuListRequest{
 		Status:    model.EnableStatusEnabled,
 		HasButton: true,
 		PageParam: types.NewPageParam(1, 1000, ""),
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
 
-	resp = connect.NewResponse(&v1pb.GetButtonListResponse{
+	resp = &v1pb.GetButtonListResponse{
 		Total: uint32(len(menuList)),
 		Records: lo.Map(menuList, func(item *model.Menu, i int) *systempb.ButtonNode {
 			var buttonsList []*model.MenuButton
@@ -416,18 +412,18 @@ func (s *SystemService) GetButtonList(ctx context.Context, req *connect.Request[
 				}),
 			}
 		}),
-	})
+	}
 	return
 }
 
 // GetMenuTree 菜单树
-func (s *SystemService) GetMenuTree(ctx context.Context, req *connect.Request[v1pb.GetMenuTreeRequest]) (resp *connect.Response[v1pb.GetMenuTreeResponse], err error) {
+func (s *SystemService) GetMenuTree(ctx context.Context, req *v1pb.GetMenuTreeRequest) (resp *v1pb.GetMenuTreeResponse, err error) {
 	_, menuList, err := s.systemService.GetMenuList(ctx, &model.GetMenuListRequest{
 		PageParam: types.NewPageParam(1, 1000, ""),
 		Status:    model.EnableStatusEnabled,
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
 	groupMenus := lo.GroupBy(menuList, func(menu *model.Menu) int64 { return menu.Pid })
@@ -450,13 +446,13 @@ func (s *SystemService) GetMenuTree(ctx context.Context, req *connect.Request[v1
 		}
 		return list
 	}
-	resp = connect.NewResponse(&v1pb.GetMenuTreeResponse{
+	resp = &v1pb.GetMenuTreeResponse{
 		Records: getChildMenu(0),
-	})
+	}
 	return
 }
 
-func (s *SystemService) GetApiList(ctx context.Context, req *connect.Request[v1pb.GetApiListRequest]) (resp *connect.Response[v1pb.GetApiListResponse], err error) {
+func (s *SystemService) GetApiList(ctx context.Context, req *v1pb.GetApiListRequest) (resp *v1pb.GetApiListResponse, err error) {
 	fileDescriptors := []protoreflect.FileDescriptor{
 		v1pb.File_admin_v1_system_proto,
 		v1pb.File_admin_v1_relay_proto,
@@ -465,59 +461,59 @@ func (s *SystemService) GetApiList(ctx context.Context, req *connect.Request[v1p
 	for _, fileDescriptor := range fileDescriptors {
 		apiList = append(apiList, utils.GetProtoMethods(fileDescriptor)...)
 	}
-	resp = connect.NewResponse(&v1pb.GetApiListResponse{
+	resp = &v1pb.GetApiListResponse{
 		Records: apiList,
-	})
+	}
 	return
 }
 
-func (s *SystemService) CreatePermission(ctx context.Context, req *connect.Request[v1pb.CreatePermissionRequest]) (resp *connect.Response[systempb.Permission], err error) {
+func (s *SystemService) CreatePermission(ctx context.Context, req *v1pb.CreatePermissionRequest) (resp *systempb.Permission, err error) {
 	permission, err := s.systemService.CreatePermission(ctx, &model.CreatePermissionRequest{
-		Permission: req.Msg.Permission,
+		Permission: req.Permission,
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(permission.ToProto())
+	resp = permission.ToProto()
 	return
 }
 
-func (s *SystemService) UpdatePermission(ctx context.Context, req *connect.Request[v1pb.UpdatePermissionRequest]) (resp *connect.Response[systempb.Permission], err error) {
+func (s *SystemService) UpdatePermission(ctx context.Context, req *v1pb.UpdatePermissionRequest) (resp *systempb.Permission, err error) {
 	permission, err := s.systemService.UpdatePermission(ctx, &model.UpdatePermissionRequest{
-		Permission: req.Msg.Permission,
-		UpdateMask: req.Msg.UpdateMask.Paths,
+		Permission: req.Permission,
+		UpdateMask: req.UpdateMask.Paths,
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(permission.ToProto())
+	resp = permission.ToProto()
 	return
 }
 
-func (s *SystemService) DeletePermissions(ctx context.Context, req *connect.Request[v1pb.DeletePermissionsRequest]) (resp *connect.Response[emptypb.Empty], err error) {
+func (s *SystemService) DeletePermissions(ctx context.Context, req *v1pb.DeletePermissionsRequest) (resp *emptypb.Empty, err error) {
 	if err = s.systemService.DeletePermissions(ctx, &model.DeletePermissionsRequest{
-		IDs: req.Msg.Ids,
+		IDs: req.Ids,
 	}); err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(&emptypb.Empty{})
+	resp = &emptypb.Empty{}
 	return
 }
 
-func (s *SystemService) GetPermissionList(ctx context.Context, req *connect.Request[v1pb.GetPermissionListRequest]) (resp *connect.Response[v1pb.GetPermissionListResponse], err error) {
+func (s *SystemService) GetPermissionList(ctx context.Context, req *v1pb.GetPermissionListRequest) (resp *v1pb.GetPermissionListResponse, err error) {
 	total, list, err := s.systemService.GetPermissionList(ctx, &model.GetPermissionListRequest{
-		PageParam: types.NewPageParam(int64(req.Msg.Current), int64(req.Msg.Size), req.Msg.OrderBy),
-		Name:      req.Msg.Name,
-		Code:      req.Msg.Code,
+		PageParam: types.NewPageParam(int64(req.Current), int64(req.Size), req.OrderBy),
+		Name:      req.Name,
+		Code:      req.Code,
 	})
 	if err != nil {
-		err = connect.NewError(connect.CodeInternal, err)
+		err = connect.NewError(connect.CodeInternal, err.Error()).WithCause(err)
 		return
 	}
-	resp = connect.NewResponse(&v1pb.GetPermissionListResponse{
+	resp = &v1pb.GetPermissionListResponse{
 		Total: uint32(total),
 		Records: lo.Map(list, func(item *model.Permission, _ int) *systempb.Permission {
 			var apiPerms []*model.ApiPerm
@@ -531,15 +527,15 @@ func (s *SystemService) GetPermissionList(ctx context.Context, req *connect.Requ
 			info.Data = apiPermList
 			return info
 		}),
-	})
+	}
 	return
 }
 
-func (s *SystemService) GetVersion(ctx context.Context, req *connect.Request[v1pb.GetVersionRequest]) (resp *connect.Response[v1pb.GetVersionResponse], err error) {
-	resp = connect.NewResponse(&v1pb.GetVersionResponse{
+func (s *SystemService) GetVersion(ctx context.Context, req *v1pb.GetVersionRequest) (resp *v1pb.GetVersionResponse, err error) {
+	resp = &v1pb.GetVersionResponse{
 		Version:   config.Version,
 		BuildTime: config.BuildTime,
 		GitCommit: config.GitCommit,
-	})
+	}
 	return
 }

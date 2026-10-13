@@ -5,7 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	connect "connectrpc.com/connect"
+	"connectrpc.com/connect/v2"
+	"connectrpc.com/connect/v2/connecthttp"
 	"github.com/samber/do/v2"
 
 	admv1 "github.com/modelgate/modelgate/internal/app/admin/v1"
@@ -16,26 +17,12 @@ import (
 
 func registerHandlers(container do.Injector) http.Handler {
 	apiMux := http.NewServeMux()
+	rpcServer := connect.NewServer(interceptor.Logger())
 
-	var options []connect.HandlerOption
-	options = append(options, connect.WithInterceptors(interceptor.Logger()))
-	// options = append(options, connect.WithCompressMinBytes(1024))
-
-	{
-		// AuthService
-		path, authHandler := v1pb.NewAuthServiceHandler(do.MustInvoke[*admv1.AuthService](container), options...)
-		apiMux.Handle(path, authHandler)
-	}
-	{
-		// SystemService
-		path, systemHandler := v1pb.NewSystemServiceHandler(do.MustInvoke[*admv1.SystemService](container), options...)
-		apiMux.Handle(path, systemHandler)
-	}
-	{
-		// RelayService
-		path, relayHandler := v1pb.NewRelayServiceHandler(do.MustInvoke[*admv1.RelayService](container), options...)
-		apiMux.Handle(path, relayHandler)
-	}
+	v1pb.RegisterAuthServiceHandler(rpcServer, do.MustInvoke[*admv1.AuthService](container))
+	v1pb.RegisterSystemServiceHandler(rpcServer, do.MustInvoke[*admv1.SystemService](container))
+	v1pb.RegisterRelayServiceHandler(rpcServer, do.MustInvoke[*admv1.RelayService](container))
+	connecthttp.Mount(apiMux, rpcServer, connecthttp.WithReadMaxBytes(0))
 
 	apiHandler := middleware.Auth(container)(apiMux)
 

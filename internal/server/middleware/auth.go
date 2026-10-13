@@ -1,13 +1,11 @@
 package middleware
 
 import (
-	"context"
-	"errors"
 	"net/http"
 	"strings"
 
-	"connectrpc.com/authn"
-	"connectrpc.com/connect"
+	"connectrpc.com/connect/v2"
+	"connectrpc.com/connect/v2/connecthttp"
 	"github.com/samber/do/v2"
 
 	"github.com/modelgate/modelgate/internal/system"
@@ -15,27 +13,34 @@ import (
 
 func Auth(i do.Injector) func(connectHandler http.Handler) http.Handler {
 	systemService := do.MustInvoke[system.Service](i)
+	errorWriter := connecthttp.NewErrorWriter()
 
 	return func(connectHandler http.Handler) http.Handler {
-		middleware := authn.NewMiddleware(func(ctx context.Context, req *http.Request) (any, error) {
-			token, ok := authn.BearerToken(req)
+		return http.HandlerFunc(func(writer http.ResponseWriter, req *http.Request) {
+			ctx := req.Context()
+			token, ok := bearerToken(req)
 			if !ok {
 				if isUnauthorizeAllowedMethod(req.URL.Path) {
-					return nil, nil
+					connectHandler.ServeHTTP(writer, req)
+					return
 				}
-				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid authorization"))
+				_ = errorWriter.Write(writer, req, connect.NewError(connect.CodeUnauthenticated, "invalid authorization"))
+				return
 			}
-			userId, err := systemService.Authenticate(req.Context(), token)
+			userID, err := systemService.Authenticate(ctx, token)
 			if err != nil {
 				if isUnauthorizeAllowedMethod(req.URL.Path) {
-					return nil, nil
+					connectHandler.ServeHTTP(writer, req)
+					return
 				}
-				return nil, connect.NewError(connect.CodeUnauthenticated, errors.New("invalid authorization"))
+				_ = errorWriter.Write(writer, req, connect.NewError(connect.CodeUnauthenticated, "invalid authorization"))
+				return
 			}
 			// check api permission
-			isSuperAdmin, apiPermList, err := systemService.GetUserApiPermissions(ctx, userId)
+			isSuperAdmin, apiPermList, err := systemService.GetUserApiPermissions(ctx, userID)
 			if err != nil {
-				return nil, connect.NewError(connect.CodePermissionDenied, errors.New("no permission"))
+				_ = errorWriter.Write(writer, req, connect.NewError(connect.CodePermissionDenied, "no permission"))
+				return
 			}
 			if !isSuperAdmin {
 				isAllowed := false
@@ -47,12 +52,21 @@ func Auth(i do.Injector) func(connectHandler http.Handler) http.Handler {
 					}
 				}
 				if !isAllowed && !isNotCheckPermissionMethod(req.URL.Path) {
-					return nil, connect.NewError(connect.CodePermissionDenied, errors.New("no permission"))
+					_ = errorWriter.Write(writer, req, connect.NewError(connect.CodePermissionDenied, "no permission"))
+					return
 				}
 			}
-			authn.SetInfo(req.Context(), userId)
-			return userId, nil
+			ctx = system.ContextWithUserID(ctx, userID)
+			connectHandler.ServeHTTP(writer, req.WithContext(ctx))
 		})
-		return middleware.Wrap(connectHandler)
 	}
+}
+
+func bearerToken(req *http.Request) (string, bool) {
+	const prefix = "Bearer "
+	authorization := req.Header.Get("Authorization")
+	if len(authorization) < len(prefix) || !strings.EqualFold(authorization[:len(prefix)], prefix) {
+		return "", false
+	}
+	return authorization[len(prefix):], true
 }

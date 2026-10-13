@@ -5,18 +5,18 @@ import (
 	"fmt"
 	"time"
 
-	connect "connectrpc.com/connect"
+	"connectrpc.com/connect/v2"
 	log "github.com/sirupsen/logrus"
 )
 
-func Logger() connect.UnaryInterceptorFunc {
-	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
-		return connect.UnaryFunc(func(ctx context.Context, req connect.AnyRequest) (connect.AnyResponse, error) {
+func Logger() connect.ServerInterceptor {
+	return func(next connect.ServerFunc) connect.ServerFunc {
+		return func(ctx context.Context, spec connect.Spec, stream connect.ServerStream) error {
 			startTime := time.Now()
 			logLevel := log.InfoLevel
 			logMsg := "OK"
 
-			resp, err := next(ctx, req)
+			err := next(ctx, spec, stream)
 			if err != nil {
 				switch connect.CodeOf(err) {
 				case connect.CodeUnauthenticated,
@@ -40,15 +40,14 @@ func Logger() connect.UnaryInterceptorFunc {
 				}
 			}
 			logger := log.WithContext(ctx).
-				WithField("method", req.Spec().Procedure).
+				WithField("method", spec.Procedure).
 				WithField("elapsed_time", fmt.Sprintf("%.3fms", float64(time.Since(startTime).Microseconds())/1000))
 			if err != nil {
 				logger = logger.WithField("err", err.Error())
 			}
 			logger.Log(logLevel, logMsg)
 
-			return resp, err
-		})
+			return err
+		}
 	}
-	return connect.UnaryInterceptorFunc(interceptor)
 }

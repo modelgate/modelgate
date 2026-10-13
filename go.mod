@@ -1,10 +1,9 @@
 module github.com/modelgate/modelgate
 
-go 1.26
+go 1.26.0
 
 require (
-	connectrpc.com/authn v0.2.0
-	connectrpc.com/connect v1.19.1
+	connectrpc.com/connect/v2 v2.0.0
 	connectrpc.com/cors v0.1.0
 	github.com/caarlos0/env/v8 v8.0.0
 	github.com/gin-contrib/cors v1.7.6
